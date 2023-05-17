@@ -1,5 +1,6 @@
 package com.example.c195_javaappdev;
 
+import DAO.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,5 +20,7 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+        JDBC.openConnection();
+        JDBC.closeConnection();
     }
 }
