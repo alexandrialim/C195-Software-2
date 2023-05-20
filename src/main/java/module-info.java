@@ -6,4 +6,6 @@ module com.example.c195_javaappdev {
 
     opens com.example.c195_javaappdev to javafx.fxml;
     exports com.example.c195_javaappdev;
+    exports CONTROLLER;
+    opens CONTROLLER to javafx.fxml;
 }
