@@ -5,10 +5,14 @@ public class Users {
     private String user_name;
     public String pw;
 
-    public Users(){
+    public Users(int user_id, String user_name, String pw){
         this.user_id = user_id;
         this.user_name = user_name;
         this.pw = pw;
+    }
+
+    public Users() {
+
     }
 
     /**
