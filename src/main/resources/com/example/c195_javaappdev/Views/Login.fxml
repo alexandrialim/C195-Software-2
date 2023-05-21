@@ -12,7 +12,7 @@
    <children>
       <Label fx:id="welcomeLabel" text="Welcome, please sign in!">
          <font>
-            <Font name="Monospaced Bold Italic" size="18.0" />
+            <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
       <GridPane>
@@ -36,7 +36,7 @@
                </GridPane.margin></Button>
             <Label fx:id="locationLabel" alignment="BOTTOM_RIGHT" text="Location" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <font>
-                  <Font name="Monospaced Bold Italic" size="14.0" />
+                  <Font name="System Italic" size="14.0" />
                </font>
             </Label>
             <TextField fx:id="usernameBox" GridPane.columnIndex="1" />

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class queryUserInfo extends Users {
     public queryUserInfo(int UID, String username, String password){
-        super();
+        super(UID,username,password);
     }
     public static String checkLoginInfo(String username, String password){
         try {

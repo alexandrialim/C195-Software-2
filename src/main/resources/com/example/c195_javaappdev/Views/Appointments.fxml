@@ -1,11 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER.AppointmentsController">
-   <children>
-      <Button layoutX="274.0" layoutY="188.0" mnemonicParsing="false" text="Button" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="1870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER.AppointmentsController">
+   <GridPane layoutX="-15.0" layoutY="14.0" prefHeight="353.0" prefWidth="1867.0">
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1225.0" minWidth="10.0" prefWidth="1085.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="882.0" minWidth="10.0" prefWidth="812.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="53.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="348.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="76.0" minHeight="0.0" prefHeight="49.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+      <StackPane prefHeight="37.0" prefWidth="1022.0">
+         <Label fx:id="Label1" alignment="CENTER" text="Appointment Management System">
+            <StackPane.margin>
+               <Insets right="790.0" />
+            </StackPane.margin>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Label>
+      </StackPane>
+      <StackPane layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="555.0" GridPane.columnIndex="1" />
+      <StackPane layoutX="10.0" layoutY="10.0" prefHeight="297.0" prefWidth="1161.0" GridPane.rowIndex="1">
+         <AnchorPane prefHeight="297.0" prefWidth="263.0" style="-fx-border-radius: 20; -fx-border-color: gray;">
+            <StackPane.margin>
+               <Insets left="20.0" right="20.0" />
+            </StackPane.margin>
+            <Button fx:id="DeletePartButton" layoutX="985.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteAppointment" text="Delete" />
+            <TableView fx:id="PartsTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="1025.0">
+               <columns>
+                  <TableColumn fx:id="appointmentID" prefWidth="98.0" text="Appointment ID" />
+                  <TableColumn fx:id="appointmentTitle" prefWidth="58.0" text="Title" />
+                  <TableColumn fx:id="appointmentDescription" prefWidth="83.0" text="Description" />
+                  <TableColumn fx:id="appointmentLocation" prefWidth="70.0" text="Location" />
+                  <TableColumn fx:id="appointmentType" maxWidth="126.0" minWidth="-1.0" prefWidth="59.0" text="Type" />
+                  <TableColumn fx:id="appointmentStart" maxWidth="131.0" minWidth="-1.0" prefWidth="51.0" text="Start" />
+                  <TableColumn fx:id="appointmentEnd" maxWidth="49.0" minWidth="-1.0" prefWidth="49.0" text="End" />
+                  <TableColumn fx:id="appointmentCreated" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Created Date" />
+                  <TableColumn fx:id="appointmentCreatedBy" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Created By" />
+                  <TableColumn fx:id="appointmentLastUpdate" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Last Update" />
+                  <TableColumn fx:id="appointmentLastUpdatedBy" maxWidth="99.0" minWidth="-1.0" prefWidth="99.0" text="Last Updated By" />
+                  <TableColumn fx:id="appointmentCustomerID" maxWidth="99.0" minWidth="-1.0" prefWidth="76.0" text="Customer ID" />
+                  <TableColumn fx:id="appointmentUserID" maxWidth="124.0" minWidth="-1.0" prefWidth="49.0" text="User ID" />
+                  <TableColumn fx:id="appointmentContactID" maxWidth="124.0" minWidth="-1.0" prefWidth="85.0" text="Contact ID" />
+               </columns>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </TableView>
+            <Button fx:id="ModifyPartButton" layoutX="919.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktomodifypartform" text="Modify" />
+            <Button fx:id="AddPartButton" layoutX="868.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddAppointment" text="Add" />
+            <Label fx:id="appointmentLabel" layoutX="14.0" layoutY="18.0" text="Appointment">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </AnchorPane>
+      </StackPane>
+      <StackPane layoutX="10.0" layoutY="10.0" prefHeight="272.0" prefWidth="854.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <AnchorPane prefHeight="282.0" prefWidth="854.0" style="-fx-border-radius: 20; -fx-border-color: gray;">
+            <StackPane.margin>
+               <Insets right="20.0" />
+            </StackPane.margin>
+            <Button fx:id="DeleteProductButton" layoutX="781.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteCustomer" text="Delete" />
+            <TableView fx:id="ProductsTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="824.0">
+               <columns>
+                  <TableColumn fx:id="customerID" prefWidth="76.0" text="Customer ID" />
+                  <TableColumn fx:id="customerName" prefWidth="60.0" text="Name" />
+                  <TableColumn fx:id="customerAddress" prefWidth="96.0" text="Address" />
+                  <TableColumn fx:id="customerPostalCode" maxWidth="140.0" minWidth="-1.0" prefWidth="116.0" text="Postal Code" />
+                  <TableColumn fx:id="customerPhone" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Phone" />
+                  <TableColumn fx:id="customerCreateDate" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Create Date" />
+                  <TableColumn fx:id="customerCreatedBy" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Created By" />
+                  <TableColumn fx:id="customerLastUpdate" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Last Update" />
+                  <TableColumn fx:id="customerLastUpdatedBy" maxWidth="140.0" minWidth="-1.0" prefWidth="99.0" text="Last Updated By" />
+                  <TableColumn fx:id="customerDivisionID" maxWidth="90.0" minWidth="-1.0" prefWidth="84.0" text="Division ID" />
+               </columns>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </TableView>
+            <Button fx:id="ModifyProductButton" layoutX="718.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyCustomer" text="Modify" />
+            <Button fx:id="AddProductButton" layoutX="672.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddCustomer" text="Add" />
+            <Label fx:id="customerLabel" layoutX="14.0" layoutY="18.0" text="Customer">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </AnchorPane>
+      </StackPane>
+      <StackPane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="1158.0" GridPane.rowIndex="2" />
+   </GridPane>
+   <StackPane layoutX="1397.0" layoutY="347.0" prefHeight="48.0" prefWidth="515.0">
+      <Button mnemonicParsing="false" onAction="#exitStage" text="Exit">
+         <StackPane.margin>
+            <Insets bottom="10.0" left="450.0" />
+         </StackPane.margin>
+      </Button>
+   </StackPane>
 </AnchorPane>

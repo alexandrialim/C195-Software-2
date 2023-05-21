@@ -11,10 +11,6 @@ public class Users {
         this.pw = pw;
     }
 
-    public Users() {
-
-    }
-
     /**
      *
      * @return user id

@@ -2,6 +2,7 @@ package CONTROLLER;
 
 import DAO.JDBC;
 import DAO.queryUserInfo;
+import MODEL.Users;
 import com.example.c195_javaappdev.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +47,7 @@ public class HelloController {
 
     public void clicktologin (ActionEvent actionEvent) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
+
         String unInput = usernameBox.getText();
         String pwInput = passwordBox.getText();
         Alert signinError = new Alert(Alert.AlertType.ERROR);
@@ -67,7 +69,7 @@ public class HelloController {
                 Parent appointments = FXMLLoader.load(Main.class.getResource("Views/Appointments.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 //Create Scene
-                Scene scene = new Scene(appointments, 1000, 600);
+                Scene scene = new Scene(appointments, 1900, 400);
                 stage.setTitle("Customer Appointments");
                 stage.setScene(scene);
                 stage.show();
