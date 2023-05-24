@@ -1,10 +1,8 @@
-package DAO;
+package com.example.c195_javaappdev.DAO;
 
-import MODEL.Users;
+import com.example.c195_javaappdev.MODEL.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

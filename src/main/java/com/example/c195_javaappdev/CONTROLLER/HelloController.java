@@ -1,8 +1,6 @@
-package CONTROLLER;
+package com.example.c195_javaappdev.CONTROLLER;
 
-import DAO.JDBC;
-import DAO.queryUserInfo;
-import MODEL.Users;
+import com.example.c195_javaappdev.DAO.JDBC;
 import com.example.c195_javaappdev.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,10 +14,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static DAO.queryUserInfo.checkLoginInfo;
+import static com.example.c195_javaappdev.DAO.queryUserInfo.checkLoginInfo;
 
 public class HelloController {
     @FXML
@@ -66,7 +63,7 @@ public class HelloController {
             JDBC.openConnection();
             String chkuser = checkLoginInfo(unInput, pwInput);
             if (chkuser.equals("test test") || chkuser.equals("admin admin")) {
-                Parent appointments = FXMLLoader.load(Main.class.getResource("Views/Appointments.fxml"));
+                Parent appointments = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 //Create Scene
                 Scene scene = new Scene(appointments, 1900, 400);

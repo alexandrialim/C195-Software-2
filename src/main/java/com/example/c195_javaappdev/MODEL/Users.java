@@ -1,4 +1,4 @@
-package MODEL;
+package com.example.c195_javaappdev.MODEL;
 
 public class Users {
     private int user_id;

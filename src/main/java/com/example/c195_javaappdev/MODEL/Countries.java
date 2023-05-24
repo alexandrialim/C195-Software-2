@@ -1,7 +1,7 @@
-package MODEL;
+package com.example.c195_javaappdev.MODEL;
 
 public class Countries {
-    private int country_id;
+    public int country_id;
     public String country;
 
     /**

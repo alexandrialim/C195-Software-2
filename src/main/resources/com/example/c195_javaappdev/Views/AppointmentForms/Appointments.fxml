@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER.AppointmentsController">
+<AnchorPane prefHeight="400.0" prefWidth="1870.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_javaappdev.CONTROLLER.Appointment.Appointments_CustomerController">
    <GridPane layoutX="-15.0" layoutY="14.0" prefHeight="353.0" prefWidth="1867.0">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1225.0" minWidth="10.0" prefWidth="1085.0" />
@@ -35,8 +35,8 @@
             <StackPane.margin>
                <Insets left="20.0" right="20.0" />
             </StackPane.margin>
-            <Button fx:id="DeletePartButton" layoutX="985.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteAppointment" text="Delete" />
-            <TableView fx:id="PartsTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="1025.0">
+            <Button fx:id="deleteAppointment" layoutX="985.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteAppointment" text="Delete" />
+            <TableView fx:id="appointmentTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="1025.0">
                <columns>
                   <TableColumn fx:id="appointmentID" prefWidth="98.0" text="Appointment ID" />
                   <TableColumn fx:id="appointmentTitle" prefWidth="58.0" text="Title" />
@@ -60,8 +60,8 @@
                   <Insets right="5.0" />
                </padding>
             </TableView>
-            <Button fx:id="ModifyPartButton" layoutX="919.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktomodifypartform" text="Modify" />
-            <Button fx:id="AddPartButton" layoutX="868.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddAppointment" text="Add" />
+            <Button fx:id="modifyAppointment" layoutX="919.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyAppointment" text="Modify" />
+            <Button fx:id="addAppointment" layoutX="868.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddAppointment" text="Add" />
             <Label fx:id="appointmentLabel" layoutX="14.0" layoutY="18.0" text="Appointment">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -74,8 +74,8 @@
             <StackPane.margin>
                <Insets right="20.0" />
             </StackPane.margin>
-            <Button fx:id="DeleteProductButton" layoutX="781.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteCustomer" text="Delete" />
-            <TableView fx:id="ProductsTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="824.0">
+            <Button fx:id="deleteCustomer" layoutX="781.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteCustomer" text="Delete" />
+            <TableView fx:id="customerTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="824.0">
                <columns>
                   <TableColumn fx:id="customerID" prefWidth="76.0" text="Customer ID" />
                   <TableColumn fx:id="customerName" prefWidth="60.0" text="Name" />
@@ -92,8 +92,8 @@
                   <Insets right="5.0" />
                </padding>
             </TableView>
-            <Button fx:id="ModifyProductButton" layoutX="718.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyCustomer" text="Modify" />
-            <Button fx:id="AddProductButton" layoutX="672.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddCustomer" text="Add" />
+            <Button fx:id="modifyCustomer" layoutX="718.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyCustomer" text="Modify" />
+            <Button fx:id="addCustomer" layoutX="672.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddCustomer" text="Add" />
             <Label fx:id="customerLabel" layoutX="14.0" layoutY="18.0" text="Customer">
                <font>
                   <Font name="System Bold" size="12.0" />

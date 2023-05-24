@@ -1,4 +1,4 @@
-package DAO;
+package com.example.c195_javaappdev.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
