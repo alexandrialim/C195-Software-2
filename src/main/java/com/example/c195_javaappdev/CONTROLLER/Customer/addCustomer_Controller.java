@@ -56,10 +56,10 @@ public class addCustomer_Controller {
         if (!custAddress.getText().isEmpty() || !custPostCode.getText().isEmpty() || !custState.getSelectionModel().isEmpty() || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
             queryCustomerData.insertCustomerList(custName,custAddress,custPostCode,custPhone,divisionID);
 
-            Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
+            Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             //Create Scene
-            Scene scene = new Scene(fxmlLoader,1900, 400);
+            Scene scene = new Scene(fxmlLoader,1100, 700);
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
@@ -72,10 +72,10 @@ public class addCustomer_Controller {
     }
 
     public void exitStage(ActionEvent actionEvent) throws IOException {
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
-        Scene scene = new Scene(fxmlLoader,1900, 400);
+        Scene scene = new Scene(fxmlLoader,1100, 700);
         stage.setTitle("Appointments/Customer Page");
         stage.setScene(scene);
         stage.show();

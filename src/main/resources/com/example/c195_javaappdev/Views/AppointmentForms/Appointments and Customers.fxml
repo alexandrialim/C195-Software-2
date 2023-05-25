@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_javaappdev.CONTROLLER.Appointment.Appointments_CustomerController">
+   <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="700.0" prefWidth="1100.0">
+     <items>
+         <GridPane>
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="294.0" minHeight="10.0" prefHeight="294.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="110.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Label fx:id="Label1" alignment="CENTER" text="Appointment Management System">
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+                  <padding>
+                     <Insets left="10.0" />
+                  </padding>
+               </Label>
+               <AnchorPane prefHeight="297.0" prefWidth="263.0" style="-fx-border-radius: 20; -fx-border-color: gray;" GridPane.rowIndex="1">
+                  <Button fx:id="deleteAppointment" layoutX="985.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteAppointment" text="Delete" />
+                  <TableView fx:id="appointmentTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="1025.0">
+                     <columns>
+                        <TableColumn fx:id="appointmentID" prefWidth="98.0" text="Appointment ID" />
+                        <TableColumn fx:id="appointmentTitle" prefWidth="58.0" text="Title" />
+                        <TableColumn fx:id="appointmentDescription" prefWidth="83.0" text="Description" />
+                        <TableColumn fx:id="appointmentLocation" prefWidth="70.0" text="Location" />
+                        <TableColumn fx:id="appointmentType" maxWidth="126.0" minWidth="-1.0" prefWidth="59.0" text="Type" />
+                        <TableColumn fx:id="appointmentStart" maxWidth="131.0" minWidth="-1.0" prefWidth="51.0" text="Start" />
+                        <TableColumn fx:id="appointmentEnd" maxWidth="49.0" minWidth="-1.0" prefWidth="49.0" text="End" />
+                        <TableColumn fx:id="appointmentCreated" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Created Date" />
+                        <TableColumn fx:id="appointmentCreatedBy" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Created By" />
+                        <TableColumn fx:id="appointmentLastUpdate" maxWidth="87.0" minWidth="-1.0" prefWidth="82.0" text="Last Update" />
+                        <TableColumn fx:id="appointmentLastUpdatedBy" maxWidth="99.0" minWidth="-1.0" prefWidth="99.0" text="Last Updated By" />
+                        <TableColumn fx:id="appointmentCustomerID" maxWidth="99.0" minWidth="-1.0" prefWidth="76.0" text="Customer ID" />
+                        <TableColumn fx:id="appointmentUserID" maxWidth="124.0" minWidth="-1.0" prefWidth="49.0" text="User ID" />
+                        <TableColumn fx:id="appointmentContactID" maxWidth="124.0" minWidth="-1.0" prefWidth="85.0" text="Contact ID" />
+                     </columns>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </TableView>
+                  <Button fx:id="modifyAppointment" layoutX="919.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyAppointment" text="Modify" />
+                  <Button fx:id="addAppointment" layoutX="868.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddAppointment" text="Add" />
+                  <Label fx:id="appointmentLabel" layoutX="14.0" layoutY="18.0" text="Appointment">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </AnchorPane>
+            </children>
+         </GridPane>
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <children>
+               <GridPane prefHeight="340.0" prefWidth="1298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1289.0" minWidth="0.0" prefWidth="870.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1279.0" minWidth="0.0" prefWidth="228.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints maxHeight="309.0" minHeight="0.0" prefHeight="309.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="216.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                     <Button mnemonicParsing="false" onAction="#exitStage" text="Exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                        <GridPane.margin>
+                           <Insets bottom="10.0" right="15.0" />
+                        </GridPane.margin></Button>
+                     <AnchorPane prefHeight="282.0" prefWidth="840.0" style="-fx-border-radius: 20; -fx-border-color: gray;">
+                        <Button fx:id="deleteCustomer" layoutX="781.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteCustomer" text="Delete" />
+                        <TableView fx:id="customerTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="840.0">
+                           <columns>
+                              <TableColumn fx:id="customerID" prefWidth="76.0" text="Customer ID" />
+                              <TableColumn fx:id="customerName" prefWidth="60.0" text="Name" />
+                              <TableColumn fx:id="customerAddress" prefWidth="96.0" text="Address" />
+                              <TableColumn fx:id="customerPostalCode" maxWidth="140.0" minWidth="-1.0" prefWidth="116.0" text="Postal Code" />
+                              <TableColumn fx:id="customerPhone" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Phone" />
+                              <TableColumn fx:id="customerCreateDate" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Create Date" />
+                              <TableColumn fx:id="customerCreatedBy" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Created By" />
+                              <TableColumn fx:id="customerLastUpdate" maxWidth="140.0" minWidth="-1.0" prefWidth="74.0" text="Last Update" />
+                              <TableColumn fx:id="customerLastUpdatedBy" maxWidth="140.0" minWidth="-1.0" prefWidth="99.0" text="Last Updated By" />
+                              <TableColumn fx:id="customerDivisionID" maxWidth="90.0" minWidth="-1.0" prefWidth="84.0" text="Division ID" />
+                           </columns>
+                           <padding>
+                              <Insets right="5.0" />
+                           </padding>
+                        </TableView>
+                        <Button fx:id="modifyCustomer" layoutX="718.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoModifyCustomer" text="Modify" />
+                        <Button fx:id="addCustomer" layoutX="672.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoAddCustomer" text="Add" />
+                        <Label fx:id="customerLabel" layoutX="14.0" layoutY="18.0" text="Customer">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </AnchorPane>
+                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1">
+                        <GridPane.margin>
+                           <Insets bottom="150.0" left="10.0" />
+                        </GridPane.margin>
+                     </RadioButton>
+                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+                        <GridPane.margin>
+                           <Insets bottom="200.0" left="10.0" />
+                        </GridPane.margin>
+                     </RadioButton>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Appointmets" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                        <GridPane.margin>
+                           <Insets left="10.0" />
+                        </GridPane.margin>
+                     </Text>
+                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1">
+                        <GridPane.margin>
+                           <Insets bottom="100.0" left="10.0" />
+                        </GridPane.margin>
+                     </RadioButton>
+                  </children>
+               </GridPane>
+            </children>
+         </AnchorPane>
+     </items>
+   </SplitPane>
+</AnchorPane>

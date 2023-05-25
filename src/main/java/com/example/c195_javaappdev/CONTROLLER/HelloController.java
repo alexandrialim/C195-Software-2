@@ -63,10 +63,10 @@ public class HelloController {
             JDBC.openConnection();
             String chkuser = checkLoginInfo(unInput, pwInput);
             if (chkuser.equals("test test") || chkuser.equals("admin admin")) {
-                Parent appointments = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
+                Parent appointments = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 //Create Scene
-                Scene scene = new Scene(appointments, 1900, 400);
+                Scene scene = new Scene(appointments, 1100, 700);
                 stage.setTitle("Customer Appointments");
                 stage.setScene(scene);
                 stage.show();

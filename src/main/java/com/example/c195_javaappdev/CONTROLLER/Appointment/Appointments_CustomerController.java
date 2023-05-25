@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class Appointments_CustomerController {
     private static Customers customerToModify;
+    private static Customers customerToDelete;
     private static int countryToModify_fldID;
     @FXML
     public TableColumn appointmentID;
@@ -189,6 +190,29 @@ public class Appointments_CustomerController {
     }
 
     public void clicktoDeleteCustomer(ActionEvent actionEvent) {
+        customerToDelete = customerTable.getSelectionModel().getSelectedItem();
+        Alert modifyCustomerAlert = new Alert(Alert.AlertType.NONE);
+        if(customerToDelete == null){
+            modifyCustomerAlert.setAlertType(Alert.AlertType.ERROR);
+            modifyCustomerAlert.setContentText("No customer was selected, " +
+                    "so no customer can be deleted from the table");
+            modifyCustomerAlert.showAndWait();
+        }
+        else{
+            queryCustomerData.deleteCustomerFromList(customerTable.getSelectionModel().getSelectedItem().getCustomer_id());
+            Parent fxmlLoader = null;
+            try {
+                fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            //Create Scene
+            Scene scene = new Scene(fxmlLoader,1100, 700);
+            stage.setTitle("Appointments/Customer Page");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
 
@@ -199,8 +223,8 @@ public class Appointments_CustomerController {
         Alert modifyCustomerAlert = new Alert(Alert.AlertType.NONE);
         if(customerToModify == null){
             modifyCustomerAlert.setAlertType(Alert.AlertType.ERROR);
-            modifyCustomerAlert.setContentText("No product was selected, " +
-                    "so no product can be modified from the table");
+            modifyCustomerAlert.setContentText("No customer was selected, " +
+                    "so no customer can be modified from the table");
             modifyCustomerAlert.showAndWait();
         }
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/modifyCustomerForm.fxml"));

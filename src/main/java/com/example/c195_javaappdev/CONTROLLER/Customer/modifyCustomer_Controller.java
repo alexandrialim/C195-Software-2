@@ -78,10 +78,10 @@ public class modifyCustomer_Controller {
             queryCustomerData.updateCustomerList(Integer.parseInt(custID.getText()),custName,custAddress, custPost
                     , custPhone, divisionID);
 
-            Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
+            Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             //Create Scene
-            Scene scene = new Scene(fxmlLoader,1900, 400);
+            Scene scene = new Scene(fxmlLoader,1100, 700);
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
@@ -95,10 +95,10 @@ public class modifyCustomer_Controller {
 
 
     public void exitStage(ActionEvent actionEvent) throws IOException {
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
-        Scene scene = new Scene(fxmlLoader,1900, 400);
+        Scene scene = new Scene(fxmlLoader,1100, 700);
         stage.setTitle("Appointments/Customer Page");
         stage.setScene(scene);
         stage.show();

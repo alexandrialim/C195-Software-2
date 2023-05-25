@@ -45,7 +45,6 @@ public class queryCustomerData {
 
     public static int insertCustomerList(TextField cName, TextField cAddress, TextField cPost,
                                          TextField cPhone, int fldID) {
-        ObservableList<Customers> cList = FXCollections.observableArrayList();
         int rowsAffected;
         try {
             String q = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -69,12 +68,11 @@ public class queryCustomerData {
 
     public static int updateCustomerList(int CID, TextField cName, TextField cAddress, TextField cPost,
                                          TextField cPhone, int fldID) {
-        ObservableList<Customers> cList = FXCollections.observableArrayList();
         int rowsAffected;
         try {
             String q = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone =  ?, Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID =? WHERE Customer_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(q);
-            ps.setString(1, cName.getText()); //.toString()
+            ps.setString(1, cName.getText());
             ps.setString(2, cAddress.getText());
             ps.setString(3, cPost.getText());
             ps.setString(4, cPhone.getText());
@@ -92,4 +90,17 @@ public class queryCustomerData {
         return rowsAffected;
     }
 
+    public static int deleteCustomerFromList(int CID){
+        int rowsAffected;
+        try {
+            String q = "DELETE FROM customers WHERE Customer_ID = ?";
+            PreparedStatement ps = JDBC.connection.prepareStatement(q);
+            ps.setInt(1, CID);
+            rowsAffected = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowsAffected;
+    }
 }
