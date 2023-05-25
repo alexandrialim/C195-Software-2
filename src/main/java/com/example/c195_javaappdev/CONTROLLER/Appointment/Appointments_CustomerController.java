@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Appointments_CustomerController {
-    //public static ObservableList<Appointments> customerListMain = FXCollections.observableArrayList();
     private static Customers customerToModify;
     private static int countryToModify_fldID;
     @FXML
@@ -196,9 +195,7 @@ public class Appointments_CustomerController {
     public void clicktoModifyCustomer(ActionEvent actionEvent) throws IOException {
         customerToModify = customerTable.getSelectionModel().getSelectedItem();
         countryToModify_fldID = customerTable.getSelectionModel().getSelectedItem().getDivision_id();
-        //System.out.println(customerToModify.country_id);
 
-        //System.out.println(countryToModify_fldID);
         Alert modifyCustomerAlert = new Alert(Alert.AlertType.NONE);
         if(customerToModify == null){
             modifyCustomerAlert.setAlertType(Alert.AlertType.ERROR);

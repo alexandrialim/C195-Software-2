@@ -6,9 +6,9 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class queryUserInfo extends Users {
+public class queryUserInfo {
     public queryUserInfo(int UID, String username, String password){
-        super(UID,username,password);
+        super();
     }
     public static String checkLoginInfo(String username, String password){
         try {
@@ -18,7 +18,6 @@ public class queryUserInfo extends Users {
                 username = r.getString("User_Name");
                 password = r.getString("Password");
             }
-            //System.out.println(r);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

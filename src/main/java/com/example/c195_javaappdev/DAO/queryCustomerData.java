@@ -2,10 +2,7 @@ package com.example.c195_javaappdev.DAO;
 
 import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.sql.PreparedStatement;
@@ -70,7 +67,7 @@ public class queryCustomerData {
         return rowsAffected;
     }
 
-    public static int updateCustomerList(TextField CID, TextField cName, TextField cAddress, TextField cPost,
+    public static int updateCustomerList(int CID, TextField cName, TextField cAddress, TextField cPost,
                                          TextField cPhone, int fldID) {
         ObservableList<Customers> cList = FXCollections.observableArrayList();
         int rowsAffected;
@@ -86,7 +83,7 @@ public class queryCustomerData {
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(8, "script");
             ps.setInt(9, fldID);
-            ps.setInt(10, Integer.parseInt(CID.getId()));
+            ps.setInt(10, CID);
             rowsAffected = ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -95,18 +92,4 @@ public class queryCustomerData {
         return rowsAffected;
     }
 
-//    public String findByID(int divisionID) {
-//        int CID = 0;
-//        String countryName = null;
-//        for (queryFirstLevelDivision fld : queryFirstLevelDivision.getFirstLevelDivisionList()) {
-//            CID = fld.getStaticCountry_id(divisionID);
-//            for (queryCountries countrylist : queryCountries.getCountriesList()) {
-//                if (countrylist.getCountry_id() == CID) {
-//                    countryName = countrylist.getCountry();
-//                    System.out.println(countryName);
-//                }
-//            }
-//        }
-//        return String.valueOf(countryName);
-//    }
 }

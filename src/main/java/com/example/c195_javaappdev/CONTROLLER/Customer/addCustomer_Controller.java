@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class addCustomer_Controller {
 
@@ -48,71 +47,9 @@ public class addCustomer_Controller {
     @FXML
     public ComboBox<Countries> custCountry;
 
-    public void initialize(){
+    public void initialize() {
         custCountry.setItems(queryCountries.getCountriesList());
-
-
-//        ObservableList<queryFirstLevelDivision> fullFLDList = queryFirstLevelDivision.getFirstLevelDivisionList();
-//        ObservableList<String> fldStates = FXCollections.observableArrayList();
-//        for (com.example.c195_javaappdev.DAO.queryFirstLevelDivision queryFirstLevelDivision : fullFLDList) {
-//            fldStates.add(queryFirstLevelDivision.getDivision());
-//        }
-//        custState.setItems(fldStates);
-//        ObservableList<queryCountries> totalCountries= queryCountries.getCountriesList();
-//        ObservableList<String> countryName = FXCollections.observableArrayList();
-//        totalCountries.forEach(countries -> countryName.add(countries.getCountry()));
-//        custState.setItems(countryName);
-//
-//        ObservableList<queryFirstLevelDivision> totalStates = queryFirstLevelDivision.getFirstLevelDivisionList();
-//        ObservableList<String> fldStateName = FXCollections.observableArrayList();
-//        totalStates.forEach(firstLevelDivision -> fldStateName.add(firstLevelDivision.getDivision()));
-//        custState.setItems(fldStateName);
-
-
-//        ObservableList<queryFirstLevelDivision> fullFLDList = queryFirstLevelDivision.getFirstLevelDivisionList();
-//        ObservableList<String> fldStates = FXCollections.observableArrayList();
-//        for (com.example.c195_javaappdev.DAO.queryFirstLevelDivision queryFirstLevelDivision : fullFLDList) {
-//            fldStates.add(queryFirstLevelDivision.getDivision());
-//        }
-//        custState.setItems(fldStates);
-//
-//        ObservableList<queryCountries> countryList = queryCountries.getCountriesList();
-//        custCountry.setItems(queryCountries.getCountriesList());
-
-//        ObservableList<String> countriesToChooseFrom = FXCollections.observableArrayList();
-//        ObservableList<queryCountries> countryList = queryCountries.getCountriesList();
-//        for (com.example.c195_javaappdev.DAO.queryCountries queryFirstLevelDivision : countryList) {
-//            fldStates.add(queryFirstLevelDivision.getDivision());
-//        }
-//        custCountry.setItems(countriesToChooseFrom);
-//
-////        for (com.example.c195_javaappdev.DAO.queryCountries queryCountries : countryList) {
-////            countriesToChooseFrom.add(queryCountries.getCountry());
-////        }
-//
-//
-//        ObservableList<queryFirstLevelDivision> fullFLDList = queryFirstLevelDivision.getFirstLevelDivisionList();
-//        ObservableList<String> fldStates = FXCollections.observableArrayList();
-//        for (com.example.c195_javaappdev.DAO.queryFirstLevelDivision queryFirstLevelDivision : fullFLDList) {
-//            fldStates.add(queryFirstLevelDivision.getDivision());
-//        }
-//        custState.setItems(fldStates);
     }
-
-        //fullFLDList.forEach(firstLevelDivision -> fldStates.add(firstLevelDivision.getDivision()));
-        //custCountry.setItems(queryCountries.getCountriesList());
-        //ObservableList<queryCountries> countryList = queryCountries.getCountriesList();
-//        ObservableList<String> countriesToChooseFrom = FXCollections.observableArrayList();
-//        for (com.example.c195_javaappdev.DAO.queryCountries queryCountries : countryList) {
-//            countriesToChooseFrom.add(queryCountries.getCountry());
-//        }
-
-        //for (com.example.c195_javaappdev.DAO.queryFirstLevelDivision queryFirstLevelDivision : fullFLDList) {
-//            fldStates.add(queryFirstLevelDivision.getDivision());
-//        }
-        //custCountry.setItems(countriesToChooseFrom);
-        //custCountry.setItems(queryCountries.getCountriesList());
-
     public void clicktoSave(ActionEvent actionEvent) throws IOException{
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         int divisionID = custState.getValue().getDivision_id();
@@ -153,33 +90,5 @@ public class addCustomer_Controller {
             e.printStackTrace();
         }
     }
-
-
-//
-//        ObservableList<String> countryL = FXCollections.observableArrayList();
-//        ObservableList<queryCountries> country = queryCountries.getCountriesList();
-//        if (country != null) {
-//            for (Countries eachCountry: country) {
-//                countryL.add(eachCountry.getCountry());
-//            }
-//        }
-//        custState.setItems(countryL);
-
-
-
-//    void SelectCountry(ActionEvent event) {
-//        ObservableList<String> divisionList = FXCollections.observableArrayList();
-//        try {
-//            ObservableList<Division> divisions = DivisionQuery.getDivisionsByCountry(CountryCombo.getSelectionModel().getSelectedItem());
-//            if (divisions != null) {
-//                for (Division division: divisions) {
-//                    divisionList.add(division.getDivision());
-//                }
-//            }
-//            DivisionCombo.setItems(divisionList);
-//        } catch (SQLException e){
-//            e.printStackTrace();
-//        }
-//    }
 
 }

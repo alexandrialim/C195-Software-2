@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
-public class Customers { //extends Appointments
+public class Customers {
     private static ObservableList<Customers> allCustomers = FXCollections.observableArrayList();
     private int customer_id;
     public String customer_name;
@@ -50,12 +50,6 @@ public class Customers { //extends Appointments
         this.division_id = division_id;
     }
 
-//    public Customers(int customer_id, int division_id, int country_id){
-//        super();
-//        this.customer_id = customer_id;
-//        this.division_id = division_id;
-//        this.country_id = country_id;
-//    }
     public int getCustomer_id() {
         return customer_id;
     }

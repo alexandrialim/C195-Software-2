@@ -8,8 +8,6 @@ import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import com.example.c195_javaappdev.Main;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,13 +53,12 @@ public class modifyCustomer_Controller {
             custCountry.setItems(queryCountries.getCountriesList());
 
             selectedCustomer = Appointments_CustomerController.returnCustomerToModify();
-            //ObservableList<Customers> customerListMain = queryCustomerData.getCustomerList();
             custID.setText(String.valueOf(selectedCustomer.getCustomer_id()));
             custName.setText(selectedCustomer.getCustomer_name());
             custAddress.setText(selectedCustomer.getAddress());
             custPost.setText(selectedCustomer.getZipcode());
             custPhone.setText(selectedCustomer.getPhone_number());
-            //custDID.setText(String.valueOf(selectedCustomer.getDivision_id()));
+
             First_Level_Divisions fld = queryFirstLevelDivision.getFirstLevelDivisionByID(selectedCustomer.getDivision_id());
             Countries country = queryCountries.getCountryByID(fld.getCountry_id());
             custState.setItems(queryFirstLevelDivision.getDivisionsByCountryID(country.getCountry_id()));
@@ -70,26 +67,16 @@ public class modifyCustomer_Controller {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        //customerTable.setItems(customerListMain);
     }
 
     public void clicktoSave(ActionEvent actionEvent) throws IOException{
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         int divisionID = custState.getValue().getDivision_id();
-        //System.out.println(fldCountry);
-        //System.out.println(returnCountryName);
-        //System.out.println(myCountryID);
-        //System.out.println(DID);
-//        for(queryFirstLevelDivision fld : queryFirstLevelDivision.getFirstLevelDivisionList()) {
-//            if (DID == myCountry.getCountry_id()) {
-//                System.out.println(myCountry.getCountry());
-//            }
-//        }
-        //selectedCountry(actionEvent, Appointments_CustomerController.returnCustomerDivisionIDToModify());
-        if (!custAddress.getText().isEmpty() || !custPost.getText().isEmpty() || !custState.getSelectionModel().isEmpty() || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
+        if (!custAddress.getText().isEmpty() || !custPost.getText().isEmpty() || !custState.getSelectionModel().isEmpty()
+                || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
 
-            queryCustomerData.insertCustomerList(custName,custAddress,custPost,custPhone,divisionID);
+            queryCustomerData.updateCustomerList(Integer.parseInt(custID.getText()),custName,custAddress, custPost
+                    , custPhone, divisionID);
 
             Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

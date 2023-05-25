@@ -44,5 +44,5 @@ public class queryAppointments {
         return aList;
     }
 
-    //public void
+
 }

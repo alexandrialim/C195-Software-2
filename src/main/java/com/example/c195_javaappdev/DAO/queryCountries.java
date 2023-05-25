@@ -10,13 +10,6 @@ import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class queryCountries {
-//    /**
-//     * @param country_id
-//     * @param country
-//     */
-//    public queryCountries(int country_id, String country) {
-//        super(country_id, country);
-//    }
     public static Countries getCountryByID(int countryID){
         ObservableList<Countries> list = getCountriesList().stream()
                 .filter(c -> c.getCountry_id() == countryID)
@@ -46,9 +39,4 @@ public class queryCountries {
         return countriesList;
     }
 
-
-
-//    public static String getCountry() {
-//        return getCountry();
-//    }
 }
