@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 public class Appointments_CustomerController {
     //public static ObservableList<Appointments> customerListMain = FXCollections.observableArrayList();
     private static Customers customerToModify;
+    private static int countryToModify_fldID;
     @FXML
     public TableColumn appointmentID;
     @FXML
@@ -92,6 +93,7 @@ public class Appointments_CustomerController {
     public Button modifyCustomer;
     @FXML
     private TableView<Appointments> appointmentTable;
+
 
 
     /* /**
@@ -190,8 +192,13 @@ public class Appointments_CustomerController {
     public void clicktoDeleteCustomer(ActionEvent actionEvent) {
     }
 
+
     public void clicktoModifyCustomer(ActionEvent actionEvent) throws IOException {
         customerToModify = customerTable.getSelectionModel().getSelectedItem();
+        countryToModify_fldID = customerTable.getSelectionModel().getSelectedItem().getDivision_id();
+        //System.out.println(customerToModify.country_id);
+
+        //System.out.println(countryToModify_fldID);
         Alert modifyCustomerAlert = new Alert(Alert.AlertType.NONE);
         if(customerToModify == null){
             modifyCustomerAlert.setAlertType(Alert.AlertType.ERROR);
@@ -223,9 +230,15 @@ public class Appointments_CustomerController {
 
     /**
      * This method allows for part data to be pulled from main screen.
+     *
      * @return returns the part selected to be modified.
      */
-    public static Customers returnCustomerToModify(){
+    public static int returnCustomerDivisionIDToModify(){
+        return countryToModify_fldID;
+    }
+
+    public static Customers returnCustomerToModify() {
         return customerToModify;
     }
+
 }

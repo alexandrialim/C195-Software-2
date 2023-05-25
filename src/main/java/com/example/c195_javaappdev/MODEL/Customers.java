@@ -18,6 +18,7 @@ public class Customers { //extends Appointments
     public LocalDateTime last_update;
     public String last_updated_by;
     public int division_id;
+    public int country_id;
 
     public Customers(int customer_id, String customer_name, String address, String zipcode, String phone_number,
                      LocalDateTime create_date, String created_by, LocalDateTime last_update, String last_updated_by,
@@ -49,6 +50,12 @@ public class Customers { //extends Appointments
         this.division_id = division_id;
     }
 
+//    public Customers(int customer_id, int division_id, int country_id){
+//        super();
+//        this.customer_id = customer_id;
+//        this.division_id = division_id;
+//        this.country_id = country_id;
+//    }
     public int getCustomer_id() {
         return customer_id;
     }
@@ -79,6 +86,10 @@ public class Customers { //extends Appointments
     }
     public int getDivision_id(){
         return division_id;
+    }
+    public int getCountry_id(){return country_id;}
+    public int setCountry_id(){this.country_id = country_id;
+        return country_id;
     }
 
     public void setCustomer_id(int customer_id) {

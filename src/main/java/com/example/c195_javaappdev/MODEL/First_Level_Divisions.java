@@ -15,14 +15,21 @@ public class First_Level_Divisions {
         this.country_id = country_id;
     }
 
+    public int getCountry_id() {
+        return country_id;
+    }
+
     public int getDivision_id() {
         return division_id;
     }
+
+    @Override
+    public String toString() {
+        return division;
+    }
+
     public String getDivision(){
         return division;
     }
 
-    public int getCountry_id() {
-        return country_id;
-    }
 }

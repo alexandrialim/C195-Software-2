@@ -4,7 +4,9 @@ import com.example.c195_javaappdev.CONTROLLER.Appointment.Appointments_CustomerC
 import com.example.c195_javaappdev.DAO.queryCountries;
 import com.example.c195_javaappdev.DAO.queryCustomerData;
 import com.example.c195_javaappdev.DAO.queryFirstLevelDivision;
+import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.Customers;
+import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import com.example.c195_javaappdev.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,10 +20,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -44,49 +46,50 @@ public class modifyCustomer_Controller {
     @FXML
     public TextField custDID;
     @FXML
-    public ComboBox custState;
+    public ComboBox<First_Level_Divisions> custState;
     @FXML
-    public ComboBox custCountry;
+    public ComboBox<Countries> custCountry;
 
     public void initialize(){
-        ObservableList<queryFirstLevelDivision> fullFLDList = queryFirstLevelDivision.getFirstLevelDivisionList();
-        ObservableList<String> fldStates = FXCollections.observableArrayList();
-        for (com.example.c195_javaappdev.DAO.queryFirstLevelDivision queryFirstLevelDivision : fullFLDList) {
-            fldStates.add(queryFirstLevelDivision.getDivision());
-        }
-        /*int fldState = 0;
-        for (queryFirstLevelDivision fld : queryFirstLevelDivision.getFirstLevelDivisionList()) {
-            if (custState.getSelectionModel().getSelectedItem().equals(fld.getDivision())) {
-                fldState = fld.getDivision_id();
-            }
-        }*/
-        custState.setItems(fldStates);
-        //custState.setItems(selectedCustomer.getSelectionModel().getSelectedItem());
-        //System.out.println(custState.getSelectionModel().getSelectedItem());
+        try {
+            custCountry.setItems(queryCountries.getCountriesList());
 
-        ObservableList<queryCountries> countryList = queryCountries.getCountriesList();
-        ObservableList<String> countriesToChooseFrom = FXCollections.observableArrayList();
-        for (com.example.c195_javaappdev.DAO.queryCountries queryCountries : countryList) {
-            countriesToChooseFrom.add(queryCountries.getCountry());
+            selectedCustomer = Appointments_CustomerController.returnCustomerToModify();
+            //ObservableList<Customers> customerListMain = queryCustomerData.getCustomerList();
+            custID.setText(String.valueOf(selectedCustomer.getCustomer_id()));
+            custName.setText(selectedCustomer.getCustomer_name());
+            custAddress.setText(selectedCustomer.getAddress());
+            custPost.setText(selectedCustomer.getZipcode());
+            custPhone.setText(selectedCustomer.getPhone_number());
+            //custDID.setText(String.valueOf(selectedCustomer.getDivision_id()));
+            First_Level_Divisions fld = queryFirstLevelDivision.getFirstLevelDivisionByID(selectedCustomer.getDivision_id());
+            Countries country = queryCountries.getCountryByID(fld.getCountry_id());
+            custState.setItems(queryFirstLevelDivision.getDivisionsByCountryID(country.getCountry_id()));
+            custCountry.setValue(country);
+            custState.setValue(fld);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        custCountry.setItems(countriesToChooseFrom);
-        //custCountry.setItems(custCountry.getItems());
 
-        selectedCustomer = Appointments_CustomerController.returnCustomerToModify();
-        ObservableList<Customers> customerListMain = queryCustomerData.getCustomerList();
-        custID.setText(String.valueOf(selectedCustomer.getCustomer_id()));
-        custName.setText(selectedCustomer.getCustomer_name());
-        custAddress.setText(selectedCustomer.getAddress());
-        custPost.setText(selectedCustomer.getZipcode());
-        custPhone.setText(selectedCustomer.getPhone_number());
-        custDID.setText(String.valueOf(selectedCustomer.getDivision_id()));
         //customerTable.setItems(customerListMain);
     }
 
     public void clicktoSave(ActionEvent actionEvent) throws IOException{
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
+        int divisionID = custState.getValue().getDivision_id();
+        //System.out.println(fldCountry);
+        //System.out.println(returnCountryName);
+        //System.out.println(myCountryID);
+        //System.out.println(DID);
+//        for(queryFirstLevelDivision fld : queryFirstLevelDivision.getFirstLevelDivisionList()) {
+//            if (DID == myCountry.getCountry_id()) {
+//                System.out.println(myCountry.getCountry());
+//            }
+//        }
+        //selectedCountry(actionEvent, Appointments_CustomerController.returnCustomerDivisionIDToModify());
         if (!custAddress.getText().isEmpty() || !custPost.getText().isEmpty() || !custState.getSelectionModel().isEmpty() || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
-            queryCustomerData.insertCustomerList(custName,custAddress,custPost,custPhone,custState);
+
+            queryCustomerData.insertCustomerList(custName,custAddress,custPost,custPhone,divisionID);
 
             Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -104,7 +107,6 @@ public class modifyCustomer_Controller {
     }
 
 
-
     public void exitStage(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -113,5 +115,8 @@ public class modifyCustomer_Controller {
         stage.setTitle("Appointments/Customer Page");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void selectedCountry(ActionEvent actionEvent) {
     }
 }
