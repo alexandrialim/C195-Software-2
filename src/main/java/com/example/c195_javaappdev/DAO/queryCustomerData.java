@@ -4,6 +4,7 @@ import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 public class queryCustomerData {
+    public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     /**
      * Observablelist for all Customers in the database
      * @return cList = Customer list
@@ -100,35 +102,13 @@ public class queryCustomerData {
             ps.setInt(1, CID);
             rowsAffected = ps.executeUpdate();
 
+            deleteSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
+            deleteSuccessful.setContentText("Customer with ID #" + CID + "has been deleted.");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return rowsAffected;
     }
-
-//    public static ObservableList<Customers> getCustomersByID(int customerID){
-//        ObservableList<Customers> customerList = FXCollections.observableArrayList();
-//        try {
-//            customerList = queryCustomerData.getCustomerList().stream()
-//                    .filter(customers -> customers.getCustomer_id() == customerID)
-//                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return customerList;
-//    }
-
-//    public static Customers getCustomerFromCustomerID(int customerID) throws SQLException {
-//        try {
-//            queryCustomerData.getCustomerList().stream()
-//                    .filter(customers -> customers.getCustomer_id() == customerID)
-//                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
 }

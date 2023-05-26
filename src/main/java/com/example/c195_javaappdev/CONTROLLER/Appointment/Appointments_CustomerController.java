@@ -247,6 +247,7 @@ public class Appointments_CustomerController {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
+            queryCustomerData.deleteSuccessful.showAndWait();
         }
     }
 

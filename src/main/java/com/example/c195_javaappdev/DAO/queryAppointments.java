@@ -99,11 +99,8 @@ public class queryAppointments {
             ps.setTimestamp(7, Timestamp.valueOf(endDateTime));
             ps.setString(8, customerID);
             ps.setString(9, userID);
-            //ps.setTimestamp(10, createDate);
-            //ps.setString(11, "script");
             ps.setTimestamp(10, lastUpdate);
             ps.setInt(11, appointmentID);
-            //ps.setString(13, "script");
             rowsAffected = ps.executeUpdate();
 
             updateSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
@@ -124,7 +121,7 @@ public class queryAppointments {
             rowsAffected = ps.executeUpdate();
 
             deleteSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
-            deleteSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been added.");
+            deleteSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been deleted.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -132,20 +129,4 @@ public class queryAppointments {
         return rowsAffected;
     }
 
-    public static int getAppointmentID(){
-        //ObservableList<Appointments> aList = FXCollections.observableArrayList();
-        int appointmentID = 0;
-        try {
-            String q = "SELECT Appointment_ID FROM appointments";
-            ResultSet r = JDBC.connection.prepareStatement(q).executeQuery();
-            while (r.next()) {
-                appointmentID = r.getInt("Appointment_ID");
-                return appointmentID;
-
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return appointmentID;
-    }
 }
