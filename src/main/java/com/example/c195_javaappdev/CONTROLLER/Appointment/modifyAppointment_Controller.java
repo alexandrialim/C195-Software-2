@@ -112,6 +112,7 @@ public class modifyAppointment_Controller {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
+            queryAppointments.updateSuccessful.showAndWait();
         }else{
             Alert insertError = new Alert(Alert.AlertType.ERROR);
             insertError.setAlertType(Alert.AlertType.ERROR);

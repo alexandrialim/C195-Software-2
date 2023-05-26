@@ -2,14 +2,15 @@ package com.example.c195_javaappdev.DAO;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 public class queryAppointments {
+    public static Alert insertSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
+    public static Alert updateSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
+    public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
 
     /**
      * Observablelist for all appointments in the database
@@ -52,7 +53,7 @@ public class queryAppointments {
         int rowsAffected;
         try {
             String q = "INSERT INTO appointments (Title, Description, Contact_ID, Type, Location, Start, End, Customer_ID, User_ID, Create_Date, Created_By, Last_Update, Last_Updated_By) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement ps = JDBC.connection.prepareStatement(q);
+            PreparedStatement ps = JDBC.connection.prepareStatement(q, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, title);
             ps.setString(2, description);
             ps.setInt(3, contactID);
@@ -69,6 +70,13 @@ public class queryAppointments {
 
             rowsAffected = ps.executeUpdate();
 
+            int generatedAppointmentID = -1;
+            ResultSet r = ps.getGeneratedKeys();
+            if (r.next()) {
+                generatedAppointmentID = r.getInt(1);
+            }
+            insertSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
+            insertSuccessful.setContentText("Appointment ID #" + generatedAppointmentID + " that goes over " + type + " has been added.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -96,8 +104,10 @@ public class queryAppointments {
             ps.setTimestamp(10, lastUpdate);
             ps.setInt(11, appointmentID);
             //ps.setString(13, "script");
-
             rowsAffected = ps.executeUpdate();
+
+            updateSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
+            updateSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been added.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,43 +115,37 @@ public class queryAppointments {
         return rowsAffected;
     }
 
-    public static int deleteAppointmentFromList(int appointmentID){
-        int rowsAffected;
+    public static int deleteAppointmentFromList(int appointmentID, String type){
+        int rowsAffected = 0;
         try {
             String q = "DELETE FROM appointments WHERE Appointment_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(q);
             ps.setInt(1, appointmentID);
             rowsAffected = ps.executeUpdate();
 
+            deleteSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
+            deleteSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been added.");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return rowsAffected;
     }
 
-//    public static Appointments getAppointmentContactByID(int appContactID){
-//        ObservableList<Appointments> list = getAppointmentList().stream()
-//                .filter(c -> c.getContactID() == appContactID)
-//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//
-//        if(list.size() > 0){
-//            return list.get(0);
-//        }else{
-//            return null;
-//        }
-//    }
+    public static int getAppointmentID(){
+        //ObservableList<Appointments> aList = FXCollections.observableArrayList();
+        int appointmentID = 0;
+        try {
+            String q = "SELECT Appointment_ID FROM appointments";
+            ResultSet r = JDBC.connection.prepareStatement(q).executeQuery();
+            while (r.next()) {
+                appointmentID = r.getInt("Appointment_ID");
+                return appointmentID;
 
-//    public static Contacts getContactFromContactID(int contactID) throws SQLException {
-//        String q = "select * from contacts where Contact_ID = " + contactID;
-//        ResultSet r = JDBC.connection.prepareStatement(q).executeQuery();
-//        while (r.next()) {
-//            int contact_id = r.getInt("Contact_ID");
-//            String contact_name = r.getString("Contact_Name");
-//            String email = r.getString("Email");
-//            Contacts contact = new Contacts(contact_id, contact_name,email);
-//            return contact;
-//        }
-//        return null;
-//    }
-
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return appointmentID;
+    }
 }

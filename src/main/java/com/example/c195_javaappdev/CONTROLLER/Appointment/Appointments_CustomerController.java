@@ -206,7 +206,8 @@ public class Appointments_CustomerController {
                     "so no appointment can be deleted from the table");
             deleteAppointmentAlert.showAndWait();
         }else{
-            queryAppointments.deleteAppointmentFromList(appointmentTable.getSelectionModel().getSelectedItem().getAppointment_id());
+            queryAppointments.deleteAppointmentFromList(appointmentTable.getSelectionModel().getSelectedItem()
+                    .getAppointment_id(), appointmentTable.getSelectionModel().getSelectedItem().getType());
             Parent fxmlLoader = null;
             try {
                 fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
@@ -219,6 +220,7 @@ public class Appointments_CustomerController {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
+            queryAppointments.deleteSuccessful.showAndWait();
         }
     }
 

@@ -1,11 +1,9 @@
 package com.example.c195_javaappdev.CONTROLLER.Appointment;
 
 import com.example.c195_javaappdev.DAO.*;
+import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Contacts;
-import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import com.example.c195_javaappdev.Main;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,17 +14,14 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class addAppointment_Controller {
+    private static Appointments newlyAddedAppointmentID;
     @FXML
     public TextField appID;
     @FXML
@@ -105,6 +100,7 @@ public class addAppointment_Controller {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
+            queryAppointments.insertSuccessful.showAndWait();
         }else{
             Alert insertError = new Alert(Alert.AlertType.ERROR);
             insertError.setAlertType(Alert.AlertType.ERROR);
@@ -112,5 +108,9 @@ public class addAppointment_Controller {
             insertError.showAndWait();
         }
 
+    }
+
+    public static int returnNewlyAddedAppointmentID() {
+        return newlyAddedAppointmentID.getAppointment_id();
     }
 }
