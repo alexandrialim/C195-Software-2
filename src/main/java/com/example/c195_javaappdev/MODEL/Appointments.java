@@ -1,6 +1,9 @@
 package com.example.c195_javaappdev.MODEL;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Appointments {
 
@@ -18,7 +21,6 @@ public class Appointments {
     private int customerID;
     private int userID;
     private int contactID;
-
     public Appointments(int appointment_id, String title, String description, String location, String type,
                         LocalDateTime startTime, LocalDateTime endTime, LocalDateTime createDate, String createdBy,
                         LocalDateTime lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID){

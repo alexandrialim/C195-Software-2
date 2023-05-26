@@ -1,7 +1,6 @@
 package com.example.c195_javaappdev.DAO;
 
 import com.example.c195_javaappdev.MODEL.Countries;
-import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

@@ -1,10 +1,12 @@
 package com.example.c195_javaappdev.DAO;
 
+import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 public class queryUserInfo {
     public queryUserInfo(int UID, String username, String password){
@@ -36,5 +38,17 @@ public class queryUserInfo {
         }
         return completeUserList;
     }
+
+//    public static Users getUserIDByAppointmentUserID(int appUserID) throws SQLException {
+//        ObservableList<Users> list = getUserList().stream()
+//                .filter(c -> c.getUser_id() == appUserID)
+//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+//
+//        if(list.size() > 0){
+//            return list.get(0);
+//        }else{
+//            return null;
+//        }
+//    }
 
 }

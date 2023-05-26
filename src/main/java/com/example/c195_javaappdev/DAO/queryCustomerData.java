@@ -1,5 +1,6 @@
 package com.example.c195_javaappdev.DAO;
 
+import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,11 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 public class queryCustomerData {
     /**
-     * Observablelist for all appointments in the database
-     * @return aList = appointment list
+     * Observablelist for all Customers in the database
+     * @return cList = Customer list
      */
     public static ObservableList<Customers> getCustomerList(){
         ObservableList<Customers> cList = FXCollections.observableArrayList();
@@ -103,4 +105,30 @@ public class queryCustomerData {
         }
         return rowsAffected;
     }
+
+//    public static ObservableList<Customers> getCustomersByID(int customerID){
+//        ObservableList<Customers> customerList = FXCollections.observableArrayList();
+//        try {
+//            customerList = queryCustomerData.getCustomerList().stream()
+//                    .filter(customers -> customers.getCustomer_id() == customerID)
+//                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+//
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return customerList;
+//    }
+
+//    public static Customers getCustomerFromCustomerID(int customerID) throws SQLException {
+//        try {
+//            queryCustomerData.getCustomerList().stream()
+//                    .filter(customers -> customers.getCustomer_id() == customerID)
+//                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+//
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
 }

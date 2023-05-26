@@ -29,7 +29,6 @@
          <children>
             <Label fx:id="usernameLabel" alignment="TOP_LEFT" prefHeight="19.0" prefWidth="128.0" text="User Name:" textAlignment="CENTER" />
             <Label fx:id="passwordLabel" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="305.0" text="Password:" textAlignment="CENTER" GridPane.rowIndex="1" />
-            <TextField fx:id="passwordBox" layoutX="165.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="signinbutton" alignment="CENTER" mnemonicParsing="false" onAction="#clicktologin" text="Sign In" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
@@ -40,6 +39,7 @@
                </font>
             </Label>
             <TextField fx:id="usernameBox" GridPane.columnIndex="1" />
+            <PasswordField fx:id="passwordBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

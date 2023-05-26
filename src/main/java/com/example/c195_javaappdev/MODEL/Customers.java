@@ -1,6 +1,5 @@
 package com.example.c195_javaappdev.MODEL;
 
-import com.example.c195_javaappdev.CONTROLLER.Appointment.Appointments_CustomerController;
 import com.example.c195_javaappdev.DAO.queryAppointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,4 +103,10 @@ public class Customers {
         allCustomers.add((Customers) queryAppointments.getAppointmentList());
         return allCustomers;
     }
+
+    /**
+     * @return the Customer ID in String form
+     */
+    @Override
+    public String toString(){return String.valueOf(customer_id);}
 }

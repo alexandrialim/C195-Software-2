@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 public class Appointments_CustomerController {
     private static Customers customerToModify;
     private static Customers customerToDelete;
+    private static Appointments appointmentToModify;
+    private static Appointments appointmentToDelete;
     private static int countryToModify_fldID;
     @FXML
     public TableColumn appointmentID;
@@ -169,7 +171,7 @@ public class Appointments_CustomerController {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/addAppointmentForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
-        Scene scene = new Scene(fxmlLoader, 1900, 400);
+        Scene scene = new Scene(fxmlLoader, 400, 550);
         stage.setTitle("Add Customer Appointments");
         stage.setScene(scene);
         stage.show();
@@ -177,16 +179,47 @@ public class Appointments_CustomerController {
     }
 
     public void clicktoModifyAppointment(ActionEvent actionEvent) throws IOException {
+        appointmentToModify = appointmentTable.getSelectionModel().getSelectedItem();
+
+        Alert modifyAppointmentAlert = new Alert(Alert.AlertType.NONE);
+        if(appointmentToModify == null){
+            modifyAppointmentAlert.setAlertType(Alert.AlertType.ERROR);
+            modifyAppointmentAlert.setContentText("No appointment was selected, " +
+                    "so no appointment can be modified from the table");
+            modifyAppointmentAlert.showAndWait();
+        }
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/modifyAppointmentForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
-        Scene scene = new Scene(fxmlLoader, 600, 400);
+        Scene scene = new Scene(fxmlLoader, 400, 550);
         stage.setTitle("Modify Customer Appointments");
         stage.setScene(scene);
         stage.show();
     }
 
     public void clicktoDeleteAppointment(ActionEvent actionEvent) {
+        appointmentToDelete = appointmentTable.getSelectionModel().getSelectedItem();
+        Alert deleteAppointmentAlert = new Alert(Alert.AlertType.NONE);
+        if(appointmentToDelete == null){
+            deleteAppointmentAlert.setAlertType(Alert.AlertType.ERROR);
+            deleteAppointmentAlert.setContentText("No appointment was selected, " +
+                    "so no appointment can be deleted from the table");
+            deleteAppointmentAlert.showAndWait();
+        }else{
+            queryAppointments.deleteAppointmentFromList(appointmentTable.getSelectionModel().getSelectedItem().getAppointment_id());
+            Parent fxmlLoader = null;
+            try {
+                fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            //Create Scene
+            Scene scene = new Scene(fxmlLoader,1100, 700);
+            stage.setTitle("Appointments/Customer Page");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void clicktoDeleteCustomer(ActionEvent actionEvent) {
@@ -260,6 +293,9 @@ public class Appointments_CustomerController {
 
     public static Customers returnCustomerToModify() {
         return customerToModify;
+    }
+    public static Appointments returnAppointmentToModify() {
+        return appointmentToModify;
     }
 
 }

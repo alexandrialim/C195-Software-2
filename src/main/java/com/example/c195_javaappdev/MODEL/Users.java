@@ -34,4 +34,10 @@ public class Users {
     public String getPw() {
         return pw;
     }
+
+    /**
+     * @return the User ID in String form
+     */
+    @Override
+    public String toString(){return String.valueOf(user_id);}
 }
