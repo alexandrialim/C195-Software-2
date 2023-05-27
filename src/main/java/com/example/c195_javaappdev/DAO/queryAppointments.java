@@ -104,7 +104,7 @@ public class queryAppointments {
             rowsAffected = ps.executeUpdate();
 
             updateSuccessful.setAlertType(Alert.AlertType.CONFIRMATION);
-            updateSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been added.");
+            updateSuccessful.setContentText("Appointment ID #" + appointmentID + " that goes over " + type + " has been updated.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

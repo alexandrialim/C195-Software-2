@@ -6,10 +6,7 @@ import com.example.c195_javaappdev.DAO.queryCustomerData;
 import com.example.c195_javaappdev.DAO.queryUserInfo;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Contacts;
-import com.example.c195_javaappdev.MODEL.Customers;
-import com.example.c195_javaappdev.MODEL.Users;
 import com.example.c195_javaappdev.Main;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +19,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class modifyAppointment_Controller {
     @FXML
@@ -85,11 +86,32 @@ public class modifyAppointment_Controller {
                 getHeadEndTime = getHeadEndTime.plusMinutes(15);
             }
         }
-        appStartT.setValue(selectedAppointment.getStartTime().toLocalTime());
-        appEndT.setValue(selectedAppointment.getEndTime().toLocalTime());
+        //convert and populate selected utc START time to local user time
+        LocalDateTime startDateTimeValue = LocalDateTime.of(selectedAppointment.getStartTime().toLocalDate()
+                , selectedAppointment.getStartTime().toLocalTime());
+        ZonedDateTime stDT = startDateTimeValue.atZone(ZoneId.of("UTC"));
+        LocalDateTime convertSTDT = stDT.toLocalDateTime().atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault()))).toLocalDateTime();
+
+        System.out.println(stDT);
+        System.out.println(convertSTDT);
+
+        //convert and populate selected utc END time to local user time
+        LocalDateTime endDateTimeValue = LocalDateTime.of(selectedAppointment.getEndTime().toLocalDate()
+                , selectedAppointment.getEndTime().toLocalTime());
+        ZonedDateTime eDT = endDateTimeValue.atZone(ZoneId.of("UTC"));
+        LocalDateTime convertEndDT = eDT.toLocalDateTime().atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault()))).toLocalDateTime();
+
+        System.out.println(eDT);
+        System.out.println(convertEndDT);
+        appStartT.setValue(LocalTime.from(convertSTDT));
+       // appStartT.setValue(convertToLocalTimeStart.toLocalTime());
+        appEndT.setValue(LocalTime.from(convertEndDT));
     }
 
-    public void clicktoSave(ActionEvent actionEvent) throws IOException{
+    public void clicktoSave(ActionEvent actionEvent) throws IOException, ParseException {
+        Alert insertError = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         LocalDateTime startDateTimeValue = LocalDateTime.of(appStartD.getValue(), appStartT.getValue());
         LocalDateTime endDateTimeValue = LocalDateTime.of(appStartD.getValue(), appEndT.getValue());
@@ -97,24 +119,41 @@ public class modifyAppointment_Controller {
         Timestamp lastUpdateValue = Timestamp.valueOf(LocalDateTime.now());
         int appointmentID = Integer.parseInt(appID.getText());
 
-        if (!appTitle.getText().isEmpty() || !appDesc.getText().isEmpty() || !appContact.getSelectionModel().isEmpty()
-                || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !startDateTimeValue.equals(null)
-                || !endDateTimeValue.equals(null) || !appCustID.getSelectionModel().isEmpty()
-                || !appUserID.getSelectionModel().isEmpty()){
-            queryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
-                    ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(),startDateTimeValue
-                    ,endDateTimeValue,appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
+        //convert to start and end time to utc time
+        ZonedDateTime headUTC = startDateTimeValue.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime endUTC = endDateTimeValue.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC"));
 
-            Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            //Create Scene
-            Scene scene = new Scene(fxmlLoader,1100, 700);
-            stage.setTitle("Appointments/Customer Page");
-            stage.setScene(scene);
-            stage.show();
-            queryAppointments.updateSuccessful.showAndWait();
+        //convert to user time zone from UTC
+        ZonedDateTime localtime = headUTC.withZoneSameInstant(ZoneId.systemDefault());
+        System.out.println(headUTC);
+        System.out.println(localtime);
+
+
+        if (!appTitle.getText().isEmpty() || !appDesc.getText().isEmpty() || !appContact.getSelectionModel().isEmpty()
+                || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !headUTC.equals(null)
+                || !endUTC.equals(null) || !appCustID.getSelectionModel().isEmpty()
+                || !appUserID.getSelectionModel().isEmpty()){
+            if(headUTC.isAfter(endUTC)){
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: Start time is after End time.");
+                insertError.showAndWait();
+            //} else if () {
+
+            } else{
+                queryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
+                        ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(), headUTC.toLocalDateTime()
+                        ,endUTC.toLocalDateTime(),appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
+
+                Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                //Create Scene
+                Scene scene = new Scene(fxmlLoader,1100, 700);
+                stage.setTitle("Appointments/Customer Page");
+                stage.setScene(scene);
+                stage.show();
+                queryAppointments.updateSuccessful.showAndWait();
+            }
         }else{
-            Alert insertError = new Alert(Alert.AlertType.ERROR);
             insertError.setAlertType(Alert.AlertType.ERROR);
             insertError.setContentText(bundle.getString("Error"));
             insertError.showAndWait();
