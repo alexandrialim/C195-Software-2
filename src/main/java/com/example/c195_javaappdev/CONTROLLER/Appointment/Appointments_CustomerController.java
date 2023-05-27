@@ -5,6 +5,7 @@ import com.example.c195_javaappdev.DAO.queryCustomerData;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.Main;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -94,6 +97,12 @@ public class Appointments_CustomerController {
     @FXML
     public Button modifyCustomer;
     @FXML
+    public RadioButton weekFilter;
+    @FXML
+    public RadioButton monthFilter;
+    @FXML
+    public RadioButton allAppointments;
+    @FXML
     private TableView<Appointments> appointmentTable;
 
 
@@ -164,6 +173,12 @@ public class Appointments_CustomerController {
         customerLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<>("last_updated_by"));
         customerDivisionID.setCellValueFactory(new PropertyValueFactory<>("division_id"));
         customerTable.setItems(customerListMain);
+
+        ToggleGroup radioToggleGroup = new ToggleGroup();
+        allAppointments.setToggleGroup(radioToggleGroup);
+        allAppointments.setSelected(true);
+        monthFilter.setToggleGroup(radioToggleGroup);
+        weekFilter.setToggleGroup(radioToggleGroup);
     }
 
 
@@ -282,6 +297,17 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    public void clickToFilterAppointmentByWeek(ActionEvent actionEvent) {
+        appointmentTable.setItems(queryAppointments.getAppointmentsThisWeek());
+    }
+
+    public void clickToFilterAppointmentByMonth(ActionEvent actionEvent) {
+        appointmentTable.setItems(queryAppointments.getAppointmentsThisMonth());
+    }
+
+    public void clickToGetAllAppointments(ActionEvent actionEvent) {
+        appointmentTable.setItems(queryAppointments.getAppointmentList());
+    }
     public void exitStage(ActionEvent actionEvent) {
     }
 

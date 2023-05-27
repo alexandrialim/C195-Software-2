@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -55,6 +56,11 @@ public class modifyAppointment_Controller {
     public Button cancel;
     @FXML
     public Button save;
+    private LocalDate dayofWeek;
+    LocalTime twelvePM_UTC_1 = LocalTime.of(12,0,0);
+    LocalTime twoAM_UTC_1 = LocalTime.of(2,0,0);
+    ZonedDateTime twelvePM_UTC;
+
     private Appointments selectedAppointment;
 
     public void initialize() throws SQLException {
@@ -93,8 +99,6 @@ public class modifyAppointment_Controller {
         LocalDateTime convertSTDT = stDT.toLocalDateTime().atZone(ZoneId.of("UTC"))
                 .withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault()))).toLocalDateTime();
 
-        System.out.println(stDT);
-        System.out.println(convertSTDT);
 
         //convert and populate selected utc END time to local user time
         LocalDateTime endDateTimeValue = LocalDateTime.of(selectedAppointment.getEndTime().toLocalDate()
@@ -103,14 +107,15 @@ public class modifyAppointment_Controller {
         LocalDateTime convertEndDT = eDT.toLocalDateTime().atZone(ZoneId.of("UTC"))
                 .withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault()))).toLocalDateTime();
 
-        System.out.println(eDT);
-        System.out.println(convertEndDT);
         appStartT.setValue(LocalTime.from(convertSTDT));
-       // appStartT.setValue(convertToLocalTimeStart.toLocalTime());
         appEndT.setValue(LocalTime.from(convertEndDT));
+
+        //LocalTime twelvePM_UTC_1 = LocalTime.of(12,0,0);
+//        ZonedDateTime twelvePM_UTC = ZonedDateTime.of(appStartD.getValue(),twelvePM_UTC_1, ZoneId.of("UTC"));
+//        LocalTime twoAM_UTC_1 = LocalTime.of(2,0,0);
     }
 
-    public void clicktoSave(ActionEvent actionEvent) throws IOException, ParseException {
+    public void clicktoSave(ActionEvent actionEvent) throws IOException, SQLException {
         Alert insertError = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         LocalDateTime startDateTimeValue = LocalDateTime.of(appStartD.getValue(), appStartT.getValue());
@@ -125,21 +130,48 @@ public class modifyAppointment_Controller {
 
         //convert to user time zone from UTC
         ZonedDateTime localtime = headUTC.withZoneSameInstant(ZoneId.systemDefault());
-        System.out.println(headUTC);
-        System.out.println(localtime);
 
+
+        ZonedDateTime twelvePM_UTC = ZonedDateTime.of(appStartD.getValue(),twelvePM_UTC_1, ZoneId.of("UTC"));
+        ZonedDateTime twoAM_UTC = ZonedDateTime.of(appStartD.getValue(),twoAM_UTC_1, ZoneId.of("UTC"));
+        dayofWeek = appStartD.getValue();
+
+        //ZonedDateTime startOfficeHours = ZonedDateTime.of(appStartD.getValue(), twelvePM_UTC_1,)
 
         if (!appTitle.getText().isEmpty() || !appDesc.getText().isEmpty() || !appContact.getSelectionModel().isEmpty()
                 || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !headUTC.equals(null)
                 || !endUTC.equals(null) || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
             if(headUTC.isAfter(endUTC)){
+            insertError.setAlertType(Alert.AlertType.ERROR);
+            insertError.setContentText("Error: Start time is AFTER end time.");
+            insertError.showAndWait();
+            }
+            if (headUTC.equals(endUTC)) {
                 insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: Start time is after End time.");
+                insertError.setContentText("Error: Start time is the SAME as end time.");
                 insertError.showAndWait();
-            //} else if () {
-
-            } else{
+            }
+            if (headUTC.isBefore(twelvePM_UTC)) {
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: Start time is before standard business hours start");
+                insertError.showAndWait();
+            }
+            if (endUTC.isAfter(twoAM_UTC) && endUTC.isBefore(twelvePM_UTC)) {
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: End time is outside standard business hours start");
+                insertError.showAndWait();
+            }
+            if (dayofWeek.getDayOfWeek() == DayOfWeek.SATURDAY || dayofWeek.getDayOfWeek() == DayOfWeek.SUNDAY){//(dayofWeek.getDayOfWeek().equals("SATURDAY") || dayofWeek.getDayOfWeek().equals("SUNDAY")) {
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: You have selected a weekend. We are only open from Monday - Friday");
+                insertError.showAndWait();
+            }
+            if(queryAppointments.appointmentConflict(appStartD.getValue(),appStartT.getValue(),appEndT.getValue()) == true){
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
+                insertError.showAndWait();
+            }else{
                 queryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
                         ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(), headUTC.toLocalDateTime()
                         ,endUTC.toLocalDateTime(),appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
@@ -153,7 +185,6 @@ public class modifyAppointment_Controller {
                 stage.show();
                 queryAppointments.updateSuccessful.showAndWait();
             }
-        }else{
             insertError.setAlertType(Alert.AlertType.ERROR);
             insertError.setContentText(bundle.getString("Error"));
             insertError.showAndWait();
@@ -169,4 +200,5 @@ public class modifyAppointment_Controller {
         stage.setScene(scene);
         stage.show();
     }
+
 }
