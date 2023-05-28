@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 
 public class Appointments {
 
@@ -12,6 +13,7 @@ public class Appointments {
     private String description;
     private String location;
     private String type;
+    private int typeAmount;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime createDate;
@@ -39,6 +41,10 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
+    public Appointments(int typeNum) {
+        this.typeAmount = typeNum;
+    }
+
 
     public Appointments() {
 

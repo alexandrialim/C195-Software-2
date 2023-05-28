@@ -131,29 +131,11 @@
                            </font>
                         </Label>
                      </AnchorPane>
-                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1">
-                        <GridPane.margin>
-                           <Insets bottom="150.0" left="10.0" />
-                        </GridPane.margin>
-                     </RadioButton>
-                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1" GridPane.valignment="CENTER">
-                        <GridPane.margin>
-                           <Insets bottom="200.0" left="10.0" />
-                        </GridPane.margin>
-                     </RadioButton>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Appointmets" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                     <Button fx:id="reportButton" mnemonicParsing="false" onAction="#clickToGoToReportsPage" text="Reports" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                         <font>
-                           <Font name="System Bold" size="14.0" />
+                           <Font size="18.0" />
                         </font>
-                        <GridPane.margin>
-                           <Insets left="10.0" />
-                        </GridPane.margin>
-                     </Text>
-                     <RadioButton mnemonicParsing="false" text="RadioButton" GridPane.columnIndex="1">
-                        <GridPane.margin>
-                           <Insets bottom="100.0" left="10.0" />
-                        </GridPane.margin>
-                     </RadioButton>
+                     </Button>
                   </children>
                </GridPane>
             </children>

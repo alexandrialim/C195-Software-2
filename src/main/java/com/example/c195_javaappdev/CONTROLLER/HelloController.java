@@ -1,7 +1,12 @@
 package com.example.c195_javaappdev.CONTROLLER;
 
 import com.example.c195_javaappdev.DAO.JDBC;
+import com.example.c195_javaappdev.DAO.queryAppointments;
+import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -70,6 +76,8 @@ public class HelloController {
                 stage.setTitle("Customer Appointments");
                 stage.setScene(scene);
                 stage.show();
+
+                upcomingAppointment();
             } else {
                 signinError.setAlertType(Alert.AlertType.ERROR);
                 signinError.setContentText(bundle.getString("Error"));
@@ -78,4 +86,34 @@ public class HelloController {
 
         }
     }
+
+    private void upcomingAppointment() {
+        boolean in15MinFlag = false;
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime in15Mins = currentTime.plusMinutes(15);
+        LocalDateTime time1;
+
+        ObservableList<Appointments> tempArray = FXCollections.observableArrayList();
+
+        for (Appointments a: queryAppointments.getAppointmentList()) {
+            time1 = a.getStartTime();
+            if(time1.equals(in15Mins) || (time1.toLocalDate().equals(in15Mins.toLocalDate())
+                    && time1.toLocalTime().isBefore(in15Mins.toLocalTime()))) {
+                in15MinFlag = true;
+            }
+        }
+        if (in15MinFlag == true) {
+            Alert appointmentWarning = new Alert(Alert.AlertType.WARNING);
+            appointmentWarning.setAlertType(Alert.AlertType.WARNING);
+            appointmentWarning.setContentText("You have an upcoming appointment that starts within the next 15 minutes!");
+            appointmentWarning.showAndWait();
+        } else{
+            Alert noAppointmentSoon = new Alert(Alert.AlertType.CONFIRMATION);
+            noAppointmentSoon.setAlertType(Alert.AlertType.CONFIRMATION);
+            noAppointmentSoon.setContentText("You DO NOT have an upcoming appointment that starts " +
+                    "within the next 15 minutes. :)");
+            noAppointmentSoon.showAndWait();
+        }
+    }
+
 }

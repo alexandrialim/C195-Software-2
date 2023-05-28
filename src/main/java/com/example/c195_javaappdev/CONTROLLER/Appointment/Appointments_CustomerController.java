@@ -103,6 +103,10 @@ public class Appointments_CustomerController {
     @FXML
     public RadioButton allAppointments;
     @FXML
+    public Button deleteCustomer;
+    @FXML
+    public Button reportButton;
+    @FXML
     private TableView<Appointments> appointmentTable;
 
 
@@ -297,6 +301,16 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    public void clickToGoToReportsPage(ActionEvent actionEvent) throws IOException {
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/Reports.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        //Create Scene
+        Scene scene = new Scene(fxmlLoader, 1100, 400);
+        stage.setTitle("Add Customer Information");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void clickToFilterAppointmentByWeek(ActionEvent actionEvent) {
         appointmentTable.setItems(queryAppointments.getAppointmentsThisWeek());
     }
@@ -326,5 +340,6 @@ public class Appointments_CustomerController {
     public static Appointments returnAppointmentToModify() {
         return appointmentToModify;
     }
+
 
 }
