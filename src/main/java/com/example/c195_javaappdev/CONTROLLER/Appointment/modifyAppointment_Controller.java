@@ -131,47 +131,60 @@ public class modifyAppointment_Controller {
         //convert to user time zone from UTC
         ZonedDateTime localtime = headUTC.withZoneSameInstant(ZoneId.systemDefault());
 
-
         ZonedDateTime twelvePM_UTC = ZonedDateTime.of(appStartD.getValue(),twelvePM_UTC_1, ZoneId.of("UTC"));
         ZonedDateTime twoAM_UTC = ZonedDateTime.of(appStartD.getValue(),twoAM_UTC_1, ZoneId.of("UTC"));
         dayofWeek = appStartD.getValue();
 
-        //ZonedDateTime startOfficeHours = ZonedDateTime.of(appStartD.getValue(), twelvePM_UTC_1,)
+        boolean chk1 = false;
+        boolean chk2 = false;
+        boolean chk3 = false;
+        boolean chk4 = false;
+        boolean chk5 = false;
+        boolean chk6 = false;
+        boolean chk7 = false;
 
         if (!appTitle.getText().isEmpty() || !appDesc.getText().isEmpty() || !appContact.getSelectionModel().isEmpty()
                 || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !headUTC.equals(null)
                 || !endUTC.equals(null) || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
+            if(queryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
+                    , (Integer) appCustID.getValue()) == true){
+                chk2 = true;
+                insertError.setAlertType(Alert.AlertType.ERROR);
+                insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
+                insertError.showAndWait();
+            }
             if(headUTC.isAfter(endUTC)){
+                chk3 = true;
             insertError.setAlertType(Alert.AlertType.ERROR);
             insertError.setContentText("Error: Start time is AFTER end time.");
             insertError.showAndWait();
             }
             if (headUTC.equals(endUTC)) {
+                chk4 = true;
                 insertError.setAlertType(Alert.AlertType.ERROR);
                 insertError.setContentText("Error: Start time is the SAME as end time.");
                 insertError.showAndWait();
             }
             if (headUTC.isBefore(twelvePM_UTC)) {
+                chk5 = true;
                 insertError.setAlertType(Alert.AlertType.ERROR);
                 insertError.setContentText("Error: Start time is before standard business hours start");
                 insertError.showAndWait();
             }
             if (endUTC.isAfter(twoAM_UTC) && endUTC.isBefore(twelvePM_UTC)) {
+                chk6 = true;
                 insertError.setAlertType(Alert.AlertType.ERROR);
                 insertError.setContentText("Error: End time is outside standard business hours start");
                 insertError.showAndWait();
             }
-            if (dayofWeek.getDayOfWeek() == DayOfWeek.SATURDAY || dayofWeek.getDayOfWeek() == DayOfWeek.SUNDAY){//(dayofWeek.getDayOfWeek().equals("SATURDAY") || dayofWeek.getDayOfWeek().equals("SUNDAY")) {
+            if (dayofWeek.getDayOfWeek() == DayOfWeek.SATURDAY || dayofWeek.getDayOfWeek() == DayOfWeek.SUNDAY){
+                chk7 = true;
                 insertError.setAlertType(Alert.AlertType.ERROR);
                 insertError.setContentText("Error: You have selected a weekend. We are only open from Monday - Friday");
                 insertError.showAndWait();
             }
-            if(queryAppointments.appointmentConflict(appStartD.getValue(),appStartT.getValue(),appEndT.getValue()) == true){
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
-                insertError.showAndWait();
-            }else{
+            else if(!chk1 && !chk2 && !chk3 && !chk4 && !chk5 && !chk6){
                 queryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
                         ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(), headUTC.toLocalDateTime()
                         ,endUTC.toLocalDateTime(),appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
@@ -185,10 +198,13 @@ public class modifyAppointment_Controller {
                 stage.show();
                 queryAppointments.updateSuccessful.showAndWait();
             }
+        }else{
+            chk1 = true;
             insertError.setAlertType(Alert.AlertType.ERROR);
             insertError.setContentText(bundle.getString("Error"));
             insertError.showAndWait();
         }
+
     }
 
     public void exitStage(ActionEvent actionEvent) throws IOException {

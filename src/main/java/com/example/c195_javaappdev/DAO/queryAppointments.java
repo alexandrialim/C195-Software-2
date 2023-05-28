@@ -11,6 +11,7 @@ public class queryAppointments {
     public static Alert insertSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert updateSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
+    static ObservableList<Appointments> conflictingAppointmentsList = FXCollections.observableArrayList();
 
     /**
      * Observablelist for all appointments in the database
@@ -202,65 +203,35 @@ public class queryAppointments {
         return aMonthList;
     }
 
-    public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime) throws SQLException {
-        boolean flag = false;
+    public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID) throws SQLException { //ObservableList<Appointments>
+            boolean conflictFlag = false;
+            //JDBC.openConnection();
         try {
-            ZonedDateTime combinedDT_Start = ZonedDateTime.of(startDate,startTime, ZoneId.of("UTC"));
-            ZonedDateTime combinedDT_End = ZonedDateTime.of(startDate,endTime, ZoneId.of("UTC"));
-            String q = "SELECT * FROM appointments WHERE ? BETWEEN Start AND End OR ? BETWEEN Start AND End OR ? < Start AND ? > End";
+            ZonedDateTime combinedDT_Start = ZonedDateTime.of(startDate,startTime, ZoneId.systemDefault());
+            ZonedDateTime combinedDT_End = ZonedDateTime.of(startDate,endTime, ZoneId.systemDefault());
+            combinedDT_Start = combinedDT_Start.withZoneSameInstant(ZoneId.of("UTC"));
+            combinedDT_End = combinedDT_End.withZoneSameInstant(ZoneId.of("UTC"));
+
+            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(q);
 
             ps.setTimestamp(1, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
             ps.setTimestamp(2, Timestamp.valueOf(combinedDT_End.toLocalDateTime()));
             ps.setTimestamp(3, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
-            ps.setTimestamp(4, Timestamp.valueOf(combinedDT_End.toLocalDateTime()));
-            //ps.setInt(5, appID);
+            ps.setTimestamp(4, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setTimestamp(5,Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setInt(6,customer_ID);
             ps.executeQuery();
             ResultSet r = ps.getResultSet();
-            if(r != null){
-                flag = true;
+            if(r.next()){
+                //conflictID = r.getInt("Appointment_ID");
+                conflictFlag = true;
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return flag;
+        return conflictFlag;
     }
 
-//    public static ObservableList<Appointments> getAppointmentsThisMonth(){
-//        ObservableList<Appointments> aMonthList = FXCollections.observableArrayList();
-//        //set time frame
-//        LocalDate today = LocalDate.now();
-//        LocalDate endWeekDate = today.plusMonths(1);
-//        try {
-//            String q = "SELECT * FROM appointments WHERE Start >= ? AND Start <= ?";
-//            PreparedStatement ps = JDBC.connection.prepareStatement(q);
-//            ps.setTimestamp(1, Timestamp.valueOf(today.atStartOfDay()));
-//            ps.setTimestamp(2, Timestamp.valueOf(endWeekDate.atStartOfDay()));
-//            ResultSet r = ps.executeQuery();
-//            while (r.next()) {
-//                int appointmentID = r.getInt("Appointment_ID");
-//                String title = r.getString("Title");
-//                String description = r.getString("Description");
-//                String location = r.getString("Location");
-//                String type = r.getString("Type");
-//                LocalDateTime start = r.getTimestamp("Start").toLocalDateTime();
-//                LocalDateTime end = r.getTimestamp("End").toLocalDateTime();
-//                LocalDateTime createDate = r.getTimestamp("Create_Date").toLocalDateTime();
-//                String createBy = r.getString("Created_By");
-//                LocalDateTime lastUpdate = r.getTimestamp("Last_Update").toLocalDateTime();
-//                String lastUpdatedBy = r.getString("Last_Updated_By");
-//                int CID = r.getInt("Customer_ID");
-//                int UID = r.getInt("User_ID");
-//                int contactID = r.getInt("Contact_ID");
-//                Appointments appointments = new Appointments(appointmentID, title, description, location, type, start, end,
-//                        createDate, createBy, lastUpdate, lastUpdatedBy, CID, UID, contactID);
-//                aMonthList.add(appointments);
-//            }
-//        }catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return aMonthList;
-//    }
 
 }
