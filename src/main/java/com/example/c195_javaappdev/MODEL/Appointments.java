@@ -1,5 +1,6 @@
 package com.example.c195_javaappdev.MODEL;
 
+
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,8 @@ public class Appointments {
     private String location;
     private String type;
     private int typeAmount;
+    private String typeDescription;
+    private String typeMonth;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime createDate;
@@ -41,8 +44,10 @@ public class Appointments {
         this.userID = userID;
         this.contactID = contactID;
     }
-    public Appointments(int typeNum) {
+    public Appointments(int typeNum, String typeDesc, String monthName) {
         this.typeAmount = typeNum;
+        this.typeDescription = typeDesc;
+        this.typeMonth = monthName;
     }
 
 
@@ -50,6 +55,15 @@ public class Appointments {
 
     }
 
+    public int getTypeAmount(){
+        return typeAmount;
+    }
+    public String getTypeDescription(){
+        return typeDescription;
+    }
+    public String getTypeMonth(){
+        return typeMonth;
+    }
     public int getAppointment_id() {
         return this.appointment_id;
     }

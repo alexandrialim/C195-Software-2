@@ -6,6 +6,7 @@ import com.example.c195_javaappdev.DAO.queryReports;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -60,7 +62,7 @@ public class ReportsController {
     @FXML
     public TableView<Appointments> appointmentTypeMonthTable;
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         ResourceBundle b = ResourceBundle.getBundle("language", Locale.getDefault());
         appointmentID.setText(b.getString("appointmentID.text"));
         appointmentTitle.setText(b.getString("appointmentTitle.text"));
@@ -86,15 +88,12 @@ public class ReportsController {
 
         filterByContact.setItems(queryContacts.getContactList());
 
-        appType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        //int totalAppointments = appointmentListMain.size();
-        ObservableList<Appointments> eachType = queryReports.getTotalOfEachType();
-
-        //System.out.println(totalAppointments);
-        totalApps.setCellValueFactory((Callback<TableColumn.CellDataFeatures, ObservableValue>) queryReports.getTotalOfEachType());
-        //totalApps.
+        appType.setCellValueFactory(new PropertyValueFactory<>("typeDescription"));
+        totalApps.setCellValueFactory(new PropertyValueFactory<>("typeAmount"));
+        months.setCellValueFactory(new PropertyValueFactory<>("typeMonth"));
+        ObservableList<Appointments> eachType = queryReports.getMonthTypeTable();
         appointmentTypeMonthTable.setItems(eachType);
-                //.setItems(eachType, appointmentListMain, );
+
 
 
 
