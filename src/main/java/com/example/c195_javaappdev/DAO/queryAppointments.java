@@ -11,7 +11,6 @@ public class queryAppointments {
     public static Alert insertSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert updateSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
-    static ObservableList<Appointments> conflictingAppointmentsList = FXCollections.observableArrayList();
 
     /**
      * Observablelist for all appointments in the database

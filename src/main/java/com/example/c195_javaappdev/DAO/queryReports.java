@@ -44,4 +44,32 @@ public class queryReports {
         }
         return getTotalTypeList;
     }
+
+    public static ObservableList<Appointments> getAppointmentsByContact(int contact_id) {
+        ObservableList<Appointments> getListForEachContact = FXCollections.observableArrayList();
+        try {
+            String q = "SELECT * FROM appointments WHERE Contact_ID = ?;";
+            PreparedStatement ps = JDBC.connection.prepareStatement(q);
+            ps.setInt(1, contact_id);
+            ResultSet r = ps.executeQuery();
+            while (r.next()){
+                int appointmentID = r.getInt("Appointment_ID");
+                String title = r.getString("Title");
+                String description = r.getString("Description");
+                String location = r.getString("Location");
+                String type = r.getString("Type");
+                LocalDateTime start = r.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime end = r.getTimestamp("End").toLocalDateTime();
+                int custID = r.getInt("Customer_ID");
+                int contID = r.getInt("Contact_ID");
+                Appointments appointments = new Appointments(appointmentID, title, description, location, type, start
+                        , end, custID, contID);
+                getListForEachContact.add(appointments);
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return getListForEachContact;
+    }
 }

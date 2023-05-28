@@ -50,6 +50,18 @@ public class Appointments {
         this.typeMonth = monthName;
     }
 
+    public Appointments(int appointment_id, String title, String description, String location, String type,
+                        LocalDateTime startTime, LocalDateTime endTime, int customerID, int contactID) {
+        this.appointment_id = appointment_id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.customerID = customerID;
+        this.contactID = contactID;
+    }
 
     public Appointments() {
 
