@@ -6,19 +6,26 @@ import com.example.c195_javaappdev.DAO.queryReports;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
+import com.example.c195_javaappdev.Main;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -95,11 +102,24 @@ public class ReportsController {
         ObservableList<Appointments> eachType = queryReports.getMonthTypeTable();
         appointmentTypeMonthTable.setItems(eachType);
 
-
+        ObservableList<Customers> customersByDivision = queryReports.getCustomersByDivisionTable();
+        divisions.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+        totalCustomers.setCellValueFactory(new PropertyValueFactory<>("divisionCount"));
+        customersDivisionsTable.setItems(customersByDivision);
 
     }
     public void clickToFilterByContact(ActionEvent actionEvent) {
         appointmentTable.setItems(queryReports.getAppointmentsByContact
                 (filterByContact.getSelectionModel().getSelectedItem().getContact_id()));
+    }
+
+    public void goBackToHome(ActionEvent actionEvent) throws IOException {
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        //Create Scene
+        Scene scene = new Scene(fxmlLoader,1100, 700);
+        stage.setTitle("Appointments/Customer Page");
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -117,8 +117,6 @@ public class addAppointment_Controller {
                 || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || headUTC != null
                 || endUTC != null || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
-
-
             if(queryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
                     , (Integer) appCustID.getValue()) == true){
                 chk2 = true;

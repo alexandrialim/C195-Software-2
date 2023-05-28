@@ -2,6 +2,7 @@ package com.example.c195_javaappdev.DAO;
 
 import com.example.c195_javaappdev.CONTROLLER.ReportsController;
 import com.example.c195_javaappdev.MODEL.Appointments;
+import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -71,5 +72,38 @@ public class queryReports {
             throw new RuntimeException(e);
         }
         return getListForEachContact;
+    }
+
+    public static int createTotalCustomersPerDivisionTable(){
+        int rowsAffected;
+        try {
+            String q = "CREATE TEMPORARY TABLE sys.customerByDivision AS SELECT count(B.Division_ID), A.Division " +
+                    "FROM first_level_divisions A, customers B " +
+                    "WHERE A.Division_ID = B.Division_ID " +
+                    "Group By A.Division";
+            PreparedStatement ps = JDBC.connection.prepareStatement(q);
+            rowsAffected = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowsAffected;
+    }
+
+    public static ObservableList<Customers> getCustomersByDivisionTable() {
+        ObservableList<Customers> divisionCustomerList = FXCollections.observableArrayList();
+        try {
+            createTotalCustomersPerDivisionTable();
+            String q = "SELECT * FROM sys.customerByDivision";
+            ResultSet r = JDBC.connection.prepareStatement(q).executeQuery();
+            while (r.next()) {
+                int divisionCount = r.getInt("count(B.Division_ID)");
+                String divisionName = r.getString("Division");
+                Customers c = new Customers(divisionCount, divisionName);
+                divisionCustomerList.add(c);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return divisionCustomerList;
     }
 }

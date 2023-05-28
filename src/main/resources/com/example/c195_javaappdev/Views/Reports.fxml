@@ -68,6 +68,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="backToMain" layoutX="1034.0" layoutY="361.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="backToMain" layoutX="1034.0" layoutY="361.0" mnemonicParsing="false" onAction="#goBackToHome" text="Back" />
    </children>
 </AnchorPane>

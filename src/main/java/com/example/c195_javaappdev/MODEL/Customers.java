@@ -18,6 +18,8 @@ public class Customers {
     public String last_updated_by;
     public int division_id;
     public int country_id;
+    public String divisionName;
+    public int divisionCount = 0;
 
     public Customers(int customer_id, String customer_name, String address, String zipcode, String phone_number,
                      LocalDateTime create_date, String created_by, LocalDateTime last_update, String last_updated_by,
@@ -48,11 +50,20 @@ public class Customers {
         this.last_updated_by = last_updated_by;
         this.division_id = division_id;
     }
+    public Customers(int divisionCount, String divisionName){
+        this.divisionCount = divisionCount;
+        this.divisionName = divisionName;
+    }
 
     public int getCustomer_id() {
         return customer_id;
     }
-
+    public String getDivisionName(){
+        return divisionName;
+    }
+    public int getDivisionCount(){
+        return divisionCount;
+    }
     public String getCustomer_name() {
         return customer_name;
     }
