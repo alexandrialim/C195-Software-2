@@ -12,11 +12,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * This class contains methods for querying customer data from the MySQL database.
+ */
 public class QueryCustomerData {
     public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     /**
-     * Observablelist for all Customers in the database
-     * @return cList = Customer list
+     * This method gets all customer data from the database.
+     * Observablelist holds all Customers in the database
+     * @return cList = Complete Customer list
      */
     public static ObservableList<Customers> getCustomerList(){
         ObservableList<Customers> cList = FXCollections.observableArrayList();
@@ -45,6 +49,15 @@ public class QueryCustomerData {
         return cList;
     }
 
+    /**
+     * This method inserts new customer data into the database.
+     * @param cName customer name
+     * @param cAddress customer address
+     * @param cPost customer postal code
+     * @param cPhone customer phone number
+     * @param fldID customer first level division ID number
+     * @return how many rows of data have been added to the customer table
+     */
     public static int insertCustomerList(TextField cName, TextField cAddress, TextField cPost,
                                          TextField cPhone, int fldID) {
         int rowsAffected;
@@ -68,6 +81,16 @@ public class QueryCustomerData {
         return rowsAffected;
     }
 
+    /**
+     * This method updates existing customer data using a UPDATE SQL query.
+     * @param CID customer ID number
+     * @param cName customer name
+     * @param cAddress customer address
+     * @param cPost customer postal code
+     * @param cPhone customer phone number
+     * @param fldID customer first level division ID number
+     * @return how many rows of data have been modified in the customer table.
+     */
     public static int updateCustomerList(int CID, TextField cName, TextField cAddress, TextField cPost,
                                          TextField cPhone, int fldID) {
         int rowsAffected;
@@ -92,6 +115,11 @@ public class QueryCustomerData {
         return rowsAffected;
     }
 
+    /**
+     * This method deletes a selected customer from the customer table.
+     * @param CID customer ID number
+     * @return how many rows of customer data have been deleted.
+     */
     public static int deleteCustomerFromList(int CID){
         int rowsAffected;
         try {

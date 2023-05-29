@@ -8,7 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
+/**
+ * This class holds methods for running SQL queries to get country data from the database.
+ */
 public class QueryCountries {
+    /**
+     * This method gets all teh countries listed in the database based on the provided country ID number.
+     * Lambda is used to fill an ObservableList with countries based on the country ID.
+     * @param countryID Locale Country ID
+     * @return Country List based on country id, or return null if it's an empty list.
+     */
     public static Countries getCountryByID(int countryID){
         ObservableList<Countries> list = getCountriesList().stream()
                 .filter(c -> c.getCountry_id() == countryID)
@@ -21,6 +30,11 @@ public class QueryCountries {
         }
     }
 
+    /**
+     * This method gets all country data.
+     * @return All country data from the database and put it into an array list
+     * that can be used to add info into the app tables.
+     */
     public static ObservableList<Countries> getCountriesList() {
         ObservableList<Countries> countriesList = FXCollections.observableArrayList();
         try {

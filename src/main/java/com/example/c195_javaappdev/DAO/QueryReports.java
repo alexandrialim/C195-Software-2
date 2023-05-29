@@ -10,8 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * This class holds methods that query the database to generate appointment and customer reports.
+ */
 public class QueryReports {
 
+    /**
+     * This method creates a temporary sql table that holds the number of each type of appointment,
+     * the associated month of the appointment, and the total number of each type of appointment.
+     * @return how many rows have been created in the table.
+     */
     public static int createTotalAndMonthOfEachTypeTable(){
         int rowsAffected;
         try {
@@ -26,6 +34,10 @@ public class QueryReports {
         return rowsAffected;
     }
 
+    /**
+     * This method grabs the month and type table that was created in the previous method.
+     * @return month and type table data.
+     */
     public static ObservableList<Appointments> getMonthTypeTable() {
         ObservableList<Appointments> getTotalTypeList = FXCollections.observableArrayList();
         try {
@@ -45,6 +57,12 @@ public class QueryReports {
         return getTotalTypeList;
     }
 
+    /**
+     * This method gets all appointments and groups them by contact id to return all scheduled appointments
+     * for each contact.
+     * @param contact_id contact id number
+     * @return list of all appointments for each contact.
+     */
     public static ObservableList<Appointments> getAppointmentsByContact(int contact_id) {
         ObservableList<Appointments> getListForEachContact = FXCollections.observableArrayList();
         try {
@@ -73,6 +91,11 @@ public class QueryReports {
         return getListForEachContact;
     }
 
+    /**
+     * This method creates a temporary sql table to hold the number of customers associated with each division
+     * and the division name.
+     * @return how many rows have been created in the table.
+     */
     public static int createTotalCustomersPerDivisionTable(){
         int rowsAffected;
         try {
@@ -88,6 +111,10 @@ public class QueryReports {
         return rowsAffected;
     }
 
+    /**
+     * This method grabs the customer division data that was generated in the previous method.
+     * @return the observable array list with the total number of customers grouped by division.
+     */
     public static ObservableList<Customers> getCustomersByDivisionTable() {
         ObservableList<Customers> divisionCustomerList = FXCollections.observableArrayList();
         try {

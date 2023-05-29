@@ -6,10 +6,17 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class holds methods to query user data from the MySQL database.
+ */
 public class QueryUserInfo {
-    public QueryUserInfo(int UID, String username, String password){
-        super();
-    }
+
+    /**
+     * This method is used to check if the user log in information exists in the database.
+     * @param username username in database
+     * @param password password in database
+     * @return the username and password from the database.
+     */
     public static String checkLoginInfo(String username, String password){
         try {
             String q = "SELECT * FROM users WHERE user_name = '" + username + "' AND password = '" + password +"'";
@@ -23,6 +30,12 @@ public class QueryUserInfo {
         }
         return username + " " + password;
     }
+
+    /**
+     * This method gets all users that exist in the database.
+     * @return a list of all user information that exists in the database.
+     * @throws SQLException
+     */
     public static ObservableList<Users> getUserList() throws SQLException {
         ObservableList<Users> completeUserList = FXCollections.observableArrayList();
         String q1 = "SELECT * FROM users";
@@ -36,17 +49,5 @@ public class QueryUserInfo {
         }
         return completeUserList;
     }
-
-//    public static Users getUserIDByAppointmentUserID(int appUserID) throws SQLException {
-//        ObservableList<Users> list = getUserList().stream()
-//                .filter(c -> c.getUser_id() == appUserID)
-//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//
-//        if(list.size() > 0){
-//            return list.get(0);
-//        }else{
-//            return null;
-//        }
-//    }
 
 }

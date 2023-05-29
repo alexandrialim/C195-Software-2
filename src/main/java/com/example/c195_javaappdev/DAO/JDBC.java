@@ -2,6 +2,9 @@ package com.example.c195_javaappdev.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * This abstract class is used to connect the user to the MySQL database.
+ */
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -13,6 +16,9 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * This method is used to open a JDBC connection to the MySQL database.
+     */
     public static void openConnection()
     {
         try {
@@ -25,7 +31,9 @@ public abstract class JDBC {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
+    /**
+     * This method is used to close a JDBC connection to the MySQL database.
+     */
     public static void closeConnection() {
         try {
             connection.close();

@@ -7,11 +7,15 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class hold methods that run SQL queries to gather different pieces of contact data.
+ */
 public class QueryContacts {
 
     /**
-     * Observablelist for all appointments in the database
-     * @return cList = Customer list
+     * This method gets all the contacts that exist in the database and loads it into a local array list.
+     * Observablelist all contacts in the database
+     * @return cList = contact list
      */
     public static ObservableList<Contacts> getContactList(){
         ObservableList<Contacts> cList = FXCollections.observableArrayList();
@@ -32,19 +36,12 @@ public class QueryContacts {
         return cList;
     }
 
-//    public static ObservableList<Contacts> getContactsByID(int contactID){
-//        ObservableList<Contacts> contactList = FXCollections.observableArrayList();
-//        try {
-//            contactList = queryContacts.getContactList().stream()
-//                    .filter(contacts -> contacts.getContact_id() == contactID)
-//                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return contactList;
-//    }
-
+    /**
+     * This method gets contact names based on the provided contact ID.
+     * @param contactID associated contact ID number
+     * @return contact name that is associated with the provided contact ID.
+     * @throws SQLException
+     */
     public static Contacts getContactFromContactID(int contactID) throws SQLException {
         String q = "select * from contacts where Contact_ID = " + contactID;
         ResultSet r = JDBC.connection.prepareStatement(q).executeQuery();

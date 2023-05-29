@@ -9,8 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
+/**
+ * This class holds methods to query first level division data from the MySQL database.
+ */
 public class QueryFirstLevelDivision {
 
+    /**
+     * This method gets all first level divisions based on the provided division id number.
+     * @param divisionID First Level Division ID
+     * @return all first level division data based on the provided division id. Or, return null if that data doesn't exist.
+     */
     public static First_Level_Divisions getFirstLevelDivisionByID(int divisionID) {
         try {
             String q = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
@@ -30,6 +38,10 @@ public class QueryFirstLevelDivision {
         return null;
     }
 
+    /**
+     * This method gets all first level division data.
+     * @return Observable array list that holds all first level division data.
+     */
     public static ObservableList<First_Level_Divisions> getFirstLevelDivisionList() {
         ObservableList<First_Level_Divisions> flDivisionList = FXCollections.observableArrayList();
         try {
@@ -48,6 +60,14 @@ public class QueryFirstLevelDivision {
         return flDivisionList;
     }
 
+    /**
+     * This method gets all first level division data that is grouped by country id.
+     * Lambda is used to fill an Observable array list with first level division data
+     * and filtering it by country id number.
+     * @param countryID country id number
+     * @return the Observable array list with all the grouped first level division data
+     * @throws SQLException
+     */
     public static ObservableList<First_Level_Divisions> getDivisionsByCountryID(int countryID) throws SQLException {
         ObservableList<First_Level_Divisions> flds = FXCollections.observableArrayList();
         try {
