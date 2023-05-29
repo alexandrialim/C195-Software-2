@@ -1,15 +1,12 @@
 package com.example.c195_javaappdev.CONTROLLER;
 
-import com.example.c195_javaappdev.DAO.queryAppointments;
-import com.example.c195_javaappdev.DAO.queryContacts;
-import com.example.c195_javaappdev.DAO.queryReports;
+import com.example.c195_javaappdev.DAO.QueryAppointments;
+import com.example.c195_javaappdev.DAO.QueryContacts;
+import com.example.c195_javaappdev.DAO.QueryReports;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.Main;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -82,7 +78,7 @@ public class ReportsController {
         appointmentCustomerID.setText(b.getString("appointmentCustomerID.text"));
         appointmentContactID.setText(b.getString("appointmentContactID.text"));
 
-        ObservableList<Appointments> appointmentListMain = queryAppointments.getAppointmentList();
+        ObservableList<Appointments> appointmentListMain = QueryAppointments.getAppointmentList();
         appointmentID.setCellValueFactory(new PropertyValueFactory<>("appointment_id"));
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -94,22 +90,22 @@ public class ReportsController {
         appointmentContactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         appointmentTable.setItems(appointmentListMain);
 
-        filterByContact.setItems(queryContacts.getContactList());
+        filterByContact.setItems(QueryContacts.getContactList());
 
         appType.setCellValueFactory(new PropertyValueFactory<>("typeDescription"));
         totalApps.setCellValueFactory(new PropertyValueFactory<>("typeAmount"));
         months.setCellValueFactory(new PropertyValueFactory<>("typeMonth"));
-        ObservableList<Appointments> eachType = queryReports.getMonthTypeTable();
+        ObservableList<Appointments> eachType = QueryReports.getMonthTypeTable();
         appointmentTypeMonthTable.setItems(eachType);
 
-        ObservableList<Customers> customersByDivision = queryReports.getCustomersByDivisionTable();
+        ObservableList<Customers> customersByDivision = QueryReports.getCustomersByDivisionTable();
         divisions.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
         totalCustomers.setCellValueFactory(new PropertyValueFactory<>("divisionCount"));
         customersDivisionsTable.setItems(customersByDivision);
 
     }
     public void clickToFilterByContact(ActionEvent actionEvent) {
-        appointmentTable.setItems(queryReports.getAppointmentsByContact
+        appointmentTable.setItems(QueryReports.getAppointmentsByContact
                 (filterByContact.getSelectionModel().getSelectedItem().getContact_id()));
     }
 

@@ -1,9 +1,9 @@
 package com.example.c195_javaappdev.CONTROLLER.Customer;
 
 import com.example.c195_javaappdev.CONTROLLER.Appointment.Appointments_CustomerController;
-import com.example.c195_javaappdev.DAO.queryCountries;
-import com.example.c195_javaappdev.DAO.queryCustomerData;
-import com.example.c195_javaappdev.DAO.queryFirstLevelDivision;
+import com.example.c195_javaappdev.DAO.QueryCountries;
+import com.example.c195_javaappdev.DAO.QueryCustomerData;
+import com.example.c195_javaappdev.DAO.QueryFirstLevelDivision;
 import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
@@ -25,7 +25,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class modifyCustomer_Controller {
+public class ModifyCustomer_Controller {
     private Customers selectedCustomer;
     @FXML
     public Button saveCustomerModify;
@@ -50,7 +50,7 @@ public class modifyCustomer_Controller {
 
     public void initialize(){
         try {
-            custCountry.setItems(queryCountries.getCountriesList());
+            custCountry.setItems(QueryCountries.getCountriesList());
 
             selectedCustomer = Appointments_CustomerController.returnCustomerToModify();
             custID.setText(String.valueOf(selectedCustomer.getCustomer_id()));
@@ -59,9 +59,9 @@ public class modifyCustomer_Controller {
             custPost.setText(selectedCustomer.getZipcode());
             custPhone.setText(selectedCustomer.getPhone_number());
 
-            First_Level_Divisions fld = queryFirstLevelDivision.getFirstLevelDivisionByID(selectedCustomer.getDivision_id());
-            Countries country = queryCountries.getCountryByID(fld.getCountry_id());
-            custState.setItems(queryFirstLevelDivision.getDivisionsByCountryID(country.getCountry_id()));
+            First_Level_Divisions fld = QueryFirstLevelDivision.getFirstLevelDivisionByID(selectedCustomer.getDivision_id());
+            Countries country = QueryCountries.getCountryByID(fld.getCountry_id());
+            custState.setItems(QueryFirstLevelDivision.getDivisionsByCountryID(country.getCountry_id()));
             custCountry.setValue(country);
             custState.setValue(fld);
         } catch (SQLException e) {
@@ -75,7 +75,7 @@ public class modifyCustomer_Controller {
         if (!custAddress.getText().isEmpty() || !custPost.getText().isEmpty() || !custState.getSelectionModel().isEmpty()
                 || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
 
-            queryCustomerData.updateCustomerList(Integer.parseInt(custID.getText()),custName,custAddress, custPost
+            QueryCustomerData.updateCustomerList(Integer.parseInt(custID.getText()),custName,custAddress, custPost
                     , custPhone, divisionID);
 
             Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));

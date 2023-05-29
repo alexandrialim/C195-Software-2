@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="550.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_javaappdev.CONTROLLER.Appointment.addAppointment_Controller">
+<AnchorPane prefHeight="550.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_javaappdev.CONTROLLER.Appointment.AddAppointment_Controller">
    <children>
       <GridPane layoutY="-1.0" prefHeight="500.0" prefWidth="393.0">
         <columnConstraints>

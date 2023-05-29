@@ -1,11 +1,10 @@
 package com.example.c195_javaappdev.CONTROLLER.Appointment;
 
-import com.example.c195_javaappdev.DAO.queryAppointments;
-import com.example.c195_javaappdev.DAO.queryCustomerData;
+import com.example.c195_javaappdev.DAO.QueryAppointments;
+import com.example.c195_javaappdev.DAO.QueryCustomerData;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.Main;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,8 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -148,7 +145,7 @@ public class Appointments_CustomerController {
         customerLastUpdatedBy.setText(b.getString("customerLastUpdatedBy.text"));
         customerDivisionID.setText(b.getString("customerDivisionID.text"));
 
-        ObservableList<Appointments> appointmentListMain = queryAppointments.getAppointmentList();
+        ObservableList<Appointments> appointmentListMain = QueryAppointments.getAppointmentList();
         appointmentID.setCellValueFactory(new PropertyValueFactory<>("appointment_id"));
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -165,7 +162,7 @@ public class Appointments_CustomerController {
         appointmentContactID.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         appointmentTable.setItems(appointmentListMain);
 
-        ObservableList<Customers> customerListMain = queryCustomerData.getCustomerList();
+        ObservableList<Customers> customerListMain = QueryCustomerData.getCustomerList();
         customerID.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         customerName.setCellValueFactory(new PropertyValueFactory<>("customer_name"));
         customerAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -187,7 +184,7 @@ public class Appointments_CustomerController {
 
 
     public void clicktoAddAppointment(ActionEvent actionEvent) throws IOException {
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/addAppointmentForm.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/AddAppointmentForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
         Scene scene = new Scene(fxmlLoader, 400, 550);
@@ -207,7 +204,7 @@ public class Appointments_CustomerController {
                     "so no appointment can be modified from the table");
             modifyAppointmentAlert.showAndWait();
         }
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/modifyAppointmentForm.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/ModifyAppointmentForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
         Scene scene = new Scene(fxmlLoader, 400, 550);
@@ -225,7 +222,7 @@ public class Appointments_CustomerController {
                     "so no appointment can be deleted from the table");
             deleteAppointmentAlert.showAndWait();
         }else{
-            queryAppointments.deleteAppointmentFromList(appointmentTable.getSelectionModel().getSelectedItem()
+            QueryAppointments.deleteAppointmentFromList(appointmentTable.getSelectionModel().getSelectedItem()
                     .getAppointment_id(), appointmentTable.getSelectionModel().getSelectedItem().getType());
             Parent fxmlLoader = null;
             try {
@@ -239,7 +236,7 @@ public class Appointments_CustomerController {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
-            queryAppointments.deleteSuccessful.showAndWait();
+            QueryAppointments.deleteSuccessful.showAndWait();
         }
     }
 
@@ -253,7 +250,7 @@ public class Appointments_CustomerController {
             modifyCustomerAlert.showAndWait();
         }
         else{
-            queryCustomerData.deleteCustomerFromList(customerTable.getSelectionModel().getSelectedItem().getCustomer_id());
+            QueryCustomerData.deleteCustomerFromList(customerTable.getSelectionModel().getSelectedItem().getCustomer_id());
             Parent fxmlLoader = null;
             try {
                 fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
@@ -266,7 +263,7 @@ public class Appointments_CustomerController {
             stage.setTitle("Appointments/Customer Page");
             stage.setScene(scene);
             stage.show();
-            queryCustomerData.deleteSuccessful.showAndWait();
+            QueryCustomerData.deleteSuccessful.showAndWait();
         }
     }
 
@@ -282,7 +279,7 @@ public class Appointments_CustomerController {
                     "so no customer can be modified from the table");
             modifyCustomerAlert.showAndWait();
         }
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/modifyCustomerForm.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/ModifyCustomerForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
         Scene scene = new Scene(fxmlLoader, 600, 400);
@@ -292,7 +289,7 @@ public class Appointments_CustomerController {
     }
 
     public void clicktoAddCustomer(ActionEvent actionEvent) throws IOException {
-        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/addCustomerForm.fxml"));
+        Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/AddCustomerForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         //Create Scene
         Scene scene = new Scene(fxmlLoader, 600, 400);
@@ -312,15 +309,15 @@ public class Appointments_CustomerController {
     }
 
     public void clickToFilterAppointmentByWeek(ActionEvent actionEvent) {
-        appointmentTable.setItems(queryAppointments.getAppointmentsThisWeek());
+        appointmentTable.setItems(QueryAppointments.getAppointmentsThisWeek());
     }
 
     public void clickToFilterAppointmentByMonth(ActionEvent actionEvent) {
-        appointmentTable.setItems(queryAppointments.getAppointmentsThisMonth());
+        appointmentTable.setItems(QueryAppointments.getAppointmentsThisMonth());
     }
 
     public void clickToGetAllAppointments(ActionEvent actionEvent) {
-        appointmentTable.setItems(queryAppointments.getAppointmentList());
+        appointmentTable.setItems(QueryAppointments.getAppointmentList());
     }
     public void exitStage(ActionEvent actionEvent) {
     }

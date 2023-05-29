@@ -1,15 +1,13 @@
 package com.example.c195_javaappdev.DAO;
 
-import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
-public class queryUserInfo {
-    public queryUserInfo(int UID, String username, String password){
+public class QueryUserInfo {
+    public QueryUserInfo(int UID, String username, String password){
         super();
     }
     public static String checkLoginInfo(String username, String password){

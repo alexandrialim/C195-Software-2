@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class queryCountries {
+public class QueryCountries {
     public static Countries getCountryByID(int countryID){
         ObservableList<Countries> list = getCountriesList().stream()
                 .filter(c -> c.getCountry_id() == countryID)

@@ -7,12 +7,14 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.time.*;
 
-public class queryAppointments {
+/**This class queries the appointments table in the database.*/
+public class QueryAppointments {
     public static Alert insertSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert updateSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
 
     /**
+     * This method grabs all rows of data from the appointments table in the database and returns those values.
      * Observablelist for all appointments in the database
      * @return aList = appointment list
      */
@@ -47,6 +49,21 @@ public class queryAppointments {
         return aList;
     }
 
+    /**
+     * This method inserts new appointment data from the Add Appointment Form into the appointments table using a SQL query.
+     * @param title The Appointment Title
+     * @param description The Appointment Description
+     * @param contactID The Appointment Contact ID
+     * @param type The Appointment Type
+     * @param location The Appointment Location
+     * @param startDateTime The Appointment Start Time and Date
+     * @param endDateTime The Appointment End Time and Date
+     * @param customerID The Customer ID associated with the Appointment
+     * @param userID The User ID associated with the Appointment
+     * @param createDate The Appointment Creation Date
+     * @param lastUpdate The Last Time and Date that the appointment was updated
+     * @return the number of rows that were added to the table.
+     */
     public static int addAppointment(String title, String description, int contactID, String type, String location
             , LocalDateTime startDateTime, LocalDateTime endDateTime, String customerID, String userID,
                                      Timestamp createDate, Timestamp lastUpdate){
@@ -83,9 +100,24 @@ public class queryAppointments {
         return rowsAffected;
     }
 
-    public static int updateAppointmentList(int appointmentID, String title, String description, int contactID, String type, String location
-            , LocalDateTime startDateTime, LocalDateTime endDateTime, String customerID, String userID,
-                                           Timestamp lastUpdate) {
+    /**
+     * This method updates an existing selected appointment.
+     * @param appointmentID The Automatically Generated Appointment ID
+     * @param title The Appointment Title
+     * @param description The Appointment Description
+     * @param contactID The Appointment Contact ID
+     * @param type The Appointment Type
+     * @param location The Appointment Location
+     * @param startDateTime The Appointment Start Time and Date
+     * @param endDateTime The Appointment End Time and Date
+     * @param customerID The Customer ID associated with the Appointment
+     * @param userID The User ID associated with the Appointment
+     * @param lastUpdate The Last Time and Date that the appointment was updated
+     * @return The number of rows that were modified in the appointments table.
+     */
+    public static int updateAppointmentList(int appointmentID, String title, String description, int contactID
+            , String type, String location, LocalDateTime startDateTime, LocalDateTime endDateTime, String customerID
+            , String userID, Timestamp lastUpdate) {
         int rowsAffected;
         try {
             String q = "UPDATE appointments SET Title = ?, Description = ?, Contact_ID = ?, Type =  ?, Location = ?, Start = ?, End = ?, Customer_ID = ?, User_ID =? , Last_Update =? WHERE Appointment_ID = ?";
@@ -112,6 +144,12 @@ public class queryAppointments {
         return rowsAffected;
     }
 
+    /**
+     * This method deletes a selected appointment from the appointments table.
+     * @param appointmentID The Automatically Generated Appointment ID
+     * @param type The Appointment Type
+     * @return The number of rows that were deleted from the appointments table.
+     */
     public static int deleteAppointmentFromList(int appointmentID, String type){
         int rowsAffected = 0;
         try {
@@ -129,6 +167,10 @@ public class queryAppointments {
         return rowsAffected;
     }
 
+    /**
+     * This method gets all the appointments that are that week based on the users computer date.
+     * @return The list of all appointments for that week.
+     */
     public static ObservableList<Appointments> getAppointmentsThisWeek(){
         ObservableList<Appointments> aWeekList = FXCollections.observableArrayList();
         //set time frame
@@ -166,6 +208,10 @@ public class queryAppointments {
         return aWeekList;
     }
 
+    /**
+     * This method gets all appointments during that month based on the users computer date.
+     * @return A list of all appointments that month that have not passed yet.
+     */
     public static ObservableList<Appointments> getAppointmentsThisMonth(){
         ObservableList<Appointments> aMonthList = FXCollections.observableArrayList();
         //set time frame
@@ -202,9 +248,17 @@ public class queryAppointments {
         return aMonthList;
     }
 
+    /**
+     * This method checks if there is an appointment conflict while the user is booking or modifying an appointment.
+     * @param startDate The Appointment Start Date
+     * @param startTime The Appointment Start Time
+     * @param endTime The Appointment End Time
+     * @param customer_ID The Customer ID associated with the Appointment
+     * @return True if the appointment conflicts with an existing appointment, False if there is no conflicting appointments.
+     * @throws SQLException
+     */
     public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID) throws SQLException { //ObservableList<Appointments>
             boolean conflictFlag = false;
-            //JDBC.openConnection();
         try {
             ZonedDateTime combinedDT_Start = ZonedDateTime.of(startDate,startTime, ZoneId.systemDefault());
             ZonedDateTime combinedDT_End = ZonedDateTime.of(startDate,endTime, ZoneId.systemDefault());
@@ -223,7 +277,6 @@ public class queryAppointments {
             ps.executeQuery();
             ResultSet r = ps.getResultSet();
             if(r.next()){
-                //conflictID = r.getInt("Appointment_ID");
                 conflictFlag = true;
             }
         } catch (SQLException e) {
@@ -231,6 +284,4 @@ public class queryAppointments {
         }
         return conflictFlag;
     }
-
-
 }

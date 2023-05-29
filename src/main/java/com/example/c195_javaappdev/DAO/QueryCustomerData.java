@@ -1,6 +1,5 @@
 package com.example.c195_javaappdev.DAO;
 
-import com.example.c195_javaappdev.MODEL.Contacts;
 import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
-public class queryCustomerData {
+public class QueryCustomerData {
     public static Alert deleteSuccessful = new Alert(Alert.AlertType.CONFIRMATION);
     /**
      * Observablelist for all Customers in the database

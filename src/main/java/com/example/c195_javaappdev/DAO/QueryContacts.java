@@ -6,9 +6,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
-public class queryContacts {
+public class QueryContacts {
 
     /**
      * Observablelist for all appointments in the database

@@ -1,15 +1,11 @@
 package com.example.c195_javaappdev.CONTROLLER.Customer;
 
-import com.example.c195_javaappdev.DAO.JDBC;
-import com.example.c195_javaappdev.DAO.queryCountries;
-import com.example.c195_javaappdev.DAO.queryCustomerData;
-import com.example.c195_javaappdev.DAO.queryFirstLevelDivision;
+import com.example.c195_javaappdev.DAO.QueryCountries;
+import com.example.c195_javaappdev.DAO.QueryCustomerData;
+import com.example.c195_javaappdev.DAO.QueryFirstLevelDivision;
 import com.example.c195_javaappdev.MODEL.Countries;
-import com.example.c195_javaappdev.MODEL.Customers;
 import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import com.example.c195_javaappdev.Main;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +20,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class addCustomer_Controller {
+public class AddCustomer_Controller {
 
     @FXML
     public Button cancelCustomerAdd;
@@ -48,13 +44,13 @@ public class addCustomer_Controller {
     public ComboBox<Countries> custCountry;
 
     public void initialize() {
-        custCountry.setItems(queryCountries.getCountriesList());
+        custCountry.setItems(QueryCountries.getCountriesList());
     }
     public void clicktoSave(ActionEvent actionEvent) throws IOException{
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         int divisionID = custState.getValue().getDivision_id();
         if (!custAddress.getText().isEmpty() || !custPostCode.getText().isEmpty() || !custState.getSelectionModel().isEmpty() || !custCountry.getSelectionModel().isEmpty() || !custPhone.getText().isEmpty()){
-            queryCustomerData.insertCustomerList(custName,custAddress,custPostCode,custPhone,divisionID);
+            QueryCustomerData.insertCustomerList(custName,custAddress,custPostCode,custPhone,divisionID);
 
             Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -84,7 +80,7 @@ public class addCustomer_Controller {
     public void selectCountry(ActionEvent actionEvent){
         try {
             Countries selectCountry = custCountry.getValue();
-            custState.setItems(queryFirstLevelDivision.getDivisionsByCountryID(selectCountry.country_id));
+            custState.setItems(QueryFirstLevelDivision.getDivisionsByCountryID(selectCountry.country_id));
 
         }catch (SQLException e) {
             e.printStackTrace();

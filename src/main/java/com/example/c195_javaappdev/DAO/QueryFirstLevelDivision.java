@@ -1,17 +1,15 @@
 package com.example.c195_javaappdev.DAO;
 
-import com.example.c195_javaappdev.MODEL.Countries;
 import com.example.c195_javaappdev.MODEL.First_Level_Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class queryFirstLevelDivision{
+public class QueryFirstLevelDivision {
 
     public static First_Level_Divisions getFirstLevelDivisionByID(int divisionID) {
         try {
@@ -54,7 +52,7 @@ public class queryFirstLevelDivision{
         ObservableList<First_Level_Divisions> flds = FXCollections.observableArrayList();
         try {
 
-            flds = queryFirstLevelDivision.getFirstLevelDivisionList().stream()
+            flds = QueryFirstLevelDivision.getFirstLevelDivisionList().stream()
                     .filter(fld -> fld.getCountry_id() == countryID)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList));
 

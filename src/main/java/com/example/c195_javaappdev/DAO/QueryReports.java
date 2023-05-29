@@ -1,6 +1,5 @@
 package com.example.c195_javaappdev.DAO;
 
-import com.example.c195_javaappdev.CONTROLLER.ReportsController;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.MODEL.Customers;
 import javafx.collections.FXCollections;
@@ -11,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class queryReports {
+public class QueryReports {
 
     public static int createTotalAndMonthOfEachTypeTable(){
         int rowsAffected;

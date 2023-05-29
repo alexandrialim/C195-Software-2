@@ -1,12 +1,11 @@
 package com.example.c195_javaappdev.CONTROLLER;
 
 import com.example.c195_javaappdev.DAO.JDBC;
-import com.example.c195_javaappdev.DAO.queryAppointments;
+import com.example.c195_javaappdev.DAO.QueryAppointments;
 import com.example.c195_javaappdev.MODEL.Appointments;
 import com.example.c195_javaappdev.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,15 +15,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static com.example.c195_javaappdev.DAO.queryUserInfo.checkLoginInfo;
+import static com.example.c195_javaappdev.DAO.QueryUserInfo.checkLoginInfo;
 
-public class HelloController {
+/**
+ * This class contains methods for logging into the system.
+ */
+public class LoginController {
     @FXML
     public Label passwordLabel;
     @FXML
@@ -38,7 +42,11 @@ public class HelloController {
     @FXML
     private Button signinbutton;
 
-
+    /**
+     * This method initializes the controller.
+     * A resource bundle is used to translate text from French to English depending
+     * on the users computer language settings.
+     */
     public void initialize(){
         ResourceBundle b = ResourceBundle.getBundle("language", Locale.getDefault());
         signinbutton.setText(b.getString("hellobutton.text"));
@@ -48,9 +56,16 @@ public class HelloController {
         locationLabel.setText(String.valueOf(ZoneId.systemDefault()));
     }
 
+    /**
+     * This method checks a users login information to see if it exists in the database.
+     * If the user exists in the database, it logs the user in.
+     * It also logs the user login attempts and whether it was successful or a failed attempt.
+     * @param actionEvent When clicked it runs user verification and logs the login attempt in login_activity.txt.
+     * @throws IOException throws an error if any out of scope errors come up.
+     */
     public void clicktologin (ActionEvent actionEvent) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
-
+        FileWriter newLoginLog = new FileWriter("login_activity.txt", true);
         String unInput = usernameBox.getText();
         String pwInput = passwordBox.getText();
         Alert signinError = new Alert(Alert.AlertType.ERROR);
@@ -69,6 +84,8 @@ public class HelloController {
             JDBC.openConnection();
             String chkuser = checkLoginInfo(unInput, pwInput);
             if (chkuser.equals("test test") || chkuser.equals("admin admin")) {
+                newLoginLog.write(Timestamp.valueOf(LocalDateTime.now()) + " " + usernameBox + " successful\n");
+
                 Parent appointments = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 //Create Scene
@@ -76,17 +93,24 @@ public class HelloController {
                 stage.setTitle("Customer Appointments");
                 stage.setScene(scene);
                 stage.show();
-
+                newLoginLog.close();
                 upcomingAppointment();
-            } else {
+            } else if(!chkuser.equals("test test") || !chkuser.equals("admin admin")){
                 signinError.setAlertType(Alert.AlertType.ERROR);
-                signinError.setContentText(bundle.getString("Error"));
+                signinError.setContentText(bundle.getString("err4"));
                 signinError.showAndWait();
+                newLoginLog.write(Timestamp.valueOf(LocalDateTime.now()) + " " + usernameBox + " Failed\n");
+                newLoginLog.close();
             }
 
         }
     }
 
+    /**
+     * This method checks if a user has an upcoming appointment in the next 15 mins.
+     * If there is an appointment in 15 minutes from the login time, a warning will pop up to notify the user.
+     * If there is no appointment in the next 15 minutes from login time, a confirmation will pop up to notify the user.
+     */
     private void upcomingAppointment() {
         boolean in15MinFlag = false;
         LocalDateTime currentTime = LocalDateTime.now();
@@ -95,7 +119,7 @@ public class HelloController {
 
         ObservableList<Appointments> tempArray = FXCollections.observableArrayList();
 
-        for (Appointments a: queryAppointments.getAppointmentList()) {
+        for (Appointments a: QueryAppointments.getAppointmentList()) {
             time1 = a.getStartTime();
             if(time1.equals(in15Mins) || (time1.toLocalDate().equals(in15Mins.toLocalDate())
                     && time1.toLocalTime().isBefore(in15Mins.toLocalTime()))) {

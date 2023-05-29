@@ -1,6 +1,6 @@
 package com.example.c195_javaappdev.MODEL;
 
-import com.example.c195_javaappdev.DAO.queryAppointments;
+import com.example.c195_javaappdev.DAO.QueryAppointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -111,7 +111,7 @@ public class Customers {
      */
 
     public static ObservableList<Customers> getAllCustomers() {
-        allCustomers.add((Customers) queryAppointments.getAppointmentList());
+        allCustomers.add((Customers) QueryAppointments.getAppointmentList());
         return allCustomers;
     }
 

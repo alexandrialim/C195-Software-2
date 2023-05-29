@@ -100,10 +100,6 @@
                    <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="31.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <Button mnemonicParsing="false" onAction="#exitStage" text="Exit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-                        <GridPane.margin>
-                           <Insets bottom="10.0" right="15.0" />
-                        </GridPane.margin></Button>
                      <AnchorPane prefHeight="282.0" prefWidth="840.0" style="-fx-border-radius: 20; -fx-border-color: gray;">
                         <Button fx:id="deleteCustomer" layoutX="781.0" layoutY="246.0" mnemonicParsing="false" onAction="#clicktoDeleteCustomer" text="Delete" />
                         <TableView fx:id="customerTable" layoutX="14.0" layoutY="39.0" prefHeight="204.0" prefWidth="840.0">
