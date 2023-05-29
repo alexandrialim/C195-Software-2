@@ -19,7 +19,9 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * This class holds methods to add appointment information.
+ */
 public class AddAppointment_Controller {
     private static Appointments newlyAddedAppointmentID;
     @FXML
@@ -53,6 +55,12 @@ public class AddAppointment_Controller {
     LocalTime twoAM_UTC_1 = LocalTime.of(2,0,0);
     ZonedDateTime twelvePM_UTC;
 
+    /**
+     * This method initializes the add appointment form.
+     * It adds a range of times for the user to pick for an appointment time, user IDs to pick from,
+     * customer IDs to pick from and contact names to pick from.
+     * @throws Exception
+     */
     public void initialize() throws Exception {
         LocalTime getHeadStartTime = LocalTime.of(5,0,0);
         LocalTime getTailStartTime = LocalTime.of(15,0,0);
@@ -75,6 +83,12 @@ public class AddAppointment_Controller {
         LocalTime twelvePM_UTC_1 = LocalTime.of(12,0,0);
 
     }
+
+    /**
+     * This method allows a user to exit the add appointment form and go back to the main page without saving any inputs.
+     * @param actionEvent When clicked, the user will be routed back to the main page.
+     * @throws IOException
+     */
     public void exitStage(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -85,6 +99,13 @@ public class AddAppointment_Controller {
         stage.show();
     }
 
+    /**
+     * This method is used to save all appointment details when modifying the appointment.
+     * @param actionEvent When clicked, the method will grab all data from the form
+     *                    and validate it before running an update query.
+     * @throws IOException
+     * @throws SQLException
+     */
     public void clicktoSave(ActionEvent actionEvent) throws IOException, SQLException {
         Alert insertError = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
@@ -178,7 +199,4 @@ public class AddAppointment_Controller {
 
     }
 
-    public static int returnNewlyAddedAppointmentID() {
-        return newlyAddedAppointmentID.getAppointment_id();
-    }
 }

@@ -23,6 +23,9 @@ import java.time.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class holds methods to modify appointment information.
+ */
 public class ModifyAppointment_Controller {
     @FXML
     public TextField appID;
@@ -53,10 +56,13 @@ public class ModifyAppointment_Controller {
     private LocalDate dayofWeek;
     LocalTime twelvePM_UTC_1 = LocalTime.of(12,0,0);
     LocalTime twoAM_UTC_1 = LocalTime.of(2,0,0);
-    ZonedDateTime twelvePM_UTC;
 
     private Appointments selectedAppointment;
 
+    /**
+     * This method initializes all the tables on the Main Page.
+     * @throws SQLException
+     */
     public void initialize() throws SQLException {
         selectedAppointment = Appointments_CustomerController.returnAppointmentToModify();
         appID.setText(String.valueOf(selectedAppointment.getAppointment_id()));
@@ -93,7 +99,6 @@ public class ModifyAppointment_Controller {
         LocalDateTime convertSTDT = stDT.toLocalDateTime().atZone(ZoneId.of("UTC"))
                 .withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault()))).toLocalDateTime();
 
-
         //convert and populate selected utc END time to local user time
         LocalDateTime endDateTimeValue = LocalDateTime.of(selectedAppointment.getEndTime().toLocalDate()
                 , selectedAppointment.getEndTime().toLocalTime());
@@ -104,11 +109,15 @@ public class ModifyAppointment_Controller {
         appStartT.setValue(LocalTime.from(convertSTDT));
         appEndT.setValue(LocalTime.from(convertEndDT));
 
-        //LocalTime twelvePM_UTC_1 = LocalTime.of(12,0,0);
-//        ZonedDateTime twelvePM_UTC = ZonedDateTime.of(appStartD.getValue(),twelvePM_UTC_1, ZoneId.of("UTC"));
-//        LocalTime twoAM_UTC_1 = LocalTime.of(2,0,0);
     }
 
+    /**
+     * This method is used to save all appointment details when modifying the appointment.
+     * @param actionEvent When clicked, the method will grab all data from the form
+     *                    and validate it before running an update query.
+     * @throws IOException
+     * @throws SQLException
+     */
     public void clicktoSave(ActionEvent actionEvent) throws IOException, SQLException {
         Alert insertError = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
@@ -201,6 +210,11 @@ public class ModifyAppointment_Controller {
 
     }
 
+    /**
+     * This method allows the user to exit the modify form and return to the main page.
+     * @param actionEvent When clicked, the user will be rerouted to the main page.
+     * @throws IOException
+     */
     public void exitStage(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
