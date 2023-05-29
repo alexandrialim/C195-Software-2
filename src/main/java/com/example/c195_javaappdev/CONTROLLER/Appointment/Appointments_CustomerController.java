@@ -21,6 +21,10 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class holds methods for adding, modifying and deleting appointments
+ * and customer data, along with pulling up a reports page.
+ */
 public class Appointments_CustomerController {
     private static Customers customerToModify;
     private static Customers customerToDelete;
@@ -108,10 +112,16 @@ public class Appointments_CustomerController {
 
 
 
-    /* /**
+    /*
      * This method initializes the controller
      * @param ResourceBundle a customized resource used to translate between english and French depending on the users
      *                       computer language settings
+     */
+
+    /**
+     * This method initializes the controller.
+     * A ResourceBundle is used to translate between english and French depending on the users computer language settings.
+     * @throws SQLException
      */
     public void initialize() throws SQLException {
         ResourceBundle b = ResourceBundle.getBundle("language", Locale.getDefault());
@@ -131,7 +141,6 @@ public class Appointments_CustomerController {
         appointmentCustomerID.setText(b.getString("appointmentCustomerID.text"));
         appointmentUserID.setText(b.getString("appointmentUserID.text"));
         appointmentContactID.setText(b.getString("appointmentContactID.text"));
-
 
         customerLabel.setText(b.getString("customerLabel.text"));
         customerID.setText(b.getString("customerID.text"));
@@ -182,7 +191,11 @@ public class Appointments_CustomerController {
         weekFilter.setToggleGroup(radioToggleGroup);
     }
 
-
+    /**
+     * This method is used to add a new appointment by opening a blank appointments scheduling form.
+     * @param actionEvent when clicked, the user is routed to a blank appointments form.
+     * @throws IOException
+     */
     public void clicktoAddAppointment(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/AddAppointmentForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -194,6 +207,12 @@ public class Appointments_CustomerController {
 
     }
 
+    /**
+     * This method is used to modify existing appointments.
+     * @param actionEvent When an appointment is selected and the button is clicked the user will be routed to
+     *                    a appointment scheduling form that has the existing data for that appointment.
+     * @throws IOException
+     */
     public void clicktoModifyAppointment(ActionEvent actionEvent) throws IOException {
         appointmentToModify = appointmentTable.getSelectionModel().getSelectedItem();
 
@@ -213,6 +232,11 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    /**
+     * This method is used to delete existing appointments.
+     * @param actionEvent When an appointment is selected from the table and the button
+     *                    is clicked, the selected appointment will be deleted.
+     */
     public void clicktoDeleteAppointment(ActionEvent actionEvent) {
         appointmentToDelete = appointmentTable.getSelectionModel().getSelectedItem();
         Alert deleteAppointmentAlert = new Alert(Alert.AlertType.NONE);
@@ -240,6 +264,11 @@ public class Appointments_CustomerController {
         }
     }
 
+    /**
+     * This method deletes an existing customer from the customer table.
+     * @param actionEvent When a selected customer is selected and the button is clicked the customer
+     *                   will be deleted from the customer table.
+     */
     public void clicktoDeleteCustomer(ActionEvent actionEvent) {
         customerToDelete = customerTable.getSelectionModel().getSelectedItem();
         Alert modifyCustomerAlert = new Alert(Alert.AlertType.NONE);
@@ -267,7 +296,12 @@ public class Appointments_CustomerController {
         }
     }
 
-
+    /**
+     * This method is used to modify existing customer data.
+     * @param actionEvent When a customer is selected and the modify button is clicked, the user is routed to the
+     *                    customer form that contains existing customer data that can be modified.
+     * @throws IOException
+     */
     public void clicktoModifyCustomer(ActionEvent actionEvent) throws IOException {
         customerToModify = customerTable.getSelectionModel().getSelectedItem();
         countryToModify_fldID = customerTable.getSelectionModel().getSelectedItem().getDivision_id();
@@ -288,6 +322,11 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    /**
+     * This method allows a user to add a new customer.
+     * @param actionEvent When clicked, the user will be routed to a blank customers form to add information to.
+     * @throws IOException
+     */
     public void clicktoAddCustomer(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/CustomerForms/AddCustomerForm.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -298,6 +337,11 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    /**
+     * This method routes the user to the Reports page.
+     * @param actionEvent When clicked, the user is routed to view all reports.
+     * @throws IOException
+     */
     public void clickToGoToReportsPage(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/Reports.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -308,32 +352,50 @@ public class Appointments_CustomerController {
         stage.show();
     }
 
+    /**
+     * This method applies a filter to the appointments table to only display appointments for that week.
+     * @param actionEvent When selected, the appointments table will show all appointments for that week that have not passed.
+     */
     public void clickToFilterAppointmentByWeek(ActionEvent actionEvent) {
         appointmentTable.setItems(QueryAppointments.getAppointmentsThisWeek());
     }
-
+    /**
+     * This method applies a filter to the appointments table to only display appointments for that month.
+     * @param actionEvent When selected, the appointments table will show all appointments for that month that have not passed.
+     */
     public void clickToFilterAppointmentByMonth(ActionEvent actionEvent) {
         appointmentTable.setItems(QueryAppointments.getAppointmentsThisMonth());
     }
 
+    /**
+     * This method grabs all appointments from the database and set them in the appointments table.
+     * @param actionEvent When clicked, it resets to show all appointments from the database.
+     */
     public void clickToGetAllAppointments(ActionEvent actionEvent) {
         appointmentTable.setItems(QueryAppointments.getAppointmentList());
     }
-    public void exitStage(ActionEvent actionEvent) {
+
+    /**
+     * This method allows for Customer Division ID data to be pulled and modified.
+     * @return returns the customer selected to be modified.
+     */
+    public static int returnCustomerDivisionIDToModify(){
+        int customerToModify_fldID = 0;
+        return customerToModify_fldID;
     }
 
     /**
-     * This method allows for part data to be pulled from main screen.
-     *
-     * @return returns the part selected to be modified.
+     * This method allows for Customer data to be pulled and modified.
+     * @return returns the customer selected to be modified.
      */
-    public static int returnCustomerDivisionIDToModify(){
-        return countryToModify_fldID;
-    }
-
     public static Customers returnCustomerToModify() {
         return customerToModify;
     }
+
+    /**
+     * This method allows for appointment data to be pulled and modified.
+     * @return returns the appointment selected to be modified.
+     */
     public static Appointments returnAppointmentToModify() {
         return appointmentToModify;
     }

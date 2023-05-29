@@ -26,6 +26,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class contains methods for generating reports.
+ */
 public class ReportsController {
     @FXML
     public Button backToMain;
@@ -66,6 +69,10 @@ public class ReportsController {
     @FXML
     public TableView<Appointments> appointmentTypeMonthTable;
 
+    /**
+     * This method initializes the reports page and loads all data for the 3 tables.
+     * @throws SQLException
+     */
     public void initialize() throws SQLException {
         ResourceBundle b = ResourceBundle.getBundle("language", Locale.getDefault());
         appointmentID.setText(b.getString("appointmentID.text"));
@@ -104,11 +111,22 @@ public class ReportsController {
         customersDivisionsTable.setItems(customersByDivision);
 
     }
+
+    /**
+     * This method calls a method from Query Reports to get all appointments based on the selected contact.
+     * @param actionEvent When a contact is selected the appointments table will be filtered
+     *                    to show what appointments that contact has scheduled.
+     */
     public void clickToFilterByContact(ActionEvent actionEvent) {
         appointmentTable.setItems(QueryReports.getAppointmentsByContact
                 (filterByContact.getSelectionModel().getSelectedItem().getContact_id()));
     }
 
+    /**
+     * This method sends the user back to the main screen.
+     * @param actionEvent When clicked the user is rerouted to the main page.
+     * @throws IOException
+     */
     public void goBackToHome(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
