@@ -259,13 +259,14 @@ public class QueryAppointments {
      */
     public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID) throws SQLException { //ObservableList<Appointments>
             boolean conflictFlag = false;
+            int rowsReturned;
         try {
             ZonedDateTime combinedDT_Start = ZonedDateTime.of(startDate,startTime, ZoneId.systemDefault());
             ZonedDateTime combinedDT_End = ZonedDateTime.of(startDate,endTime, ZoneId.systemDefault());
             combinedDT_Start = combinedDT_Start.withZoneSameInstant(ZoneId.of("UTC"));
             combinedDT_End = combinedDT_End.withZoneSameInstant(ZoneId.of("UTC"));
 
-            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ?";
+            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ? && Appointment_ID != Appointment_ID";
             PreparedStatement ps = JDBC.connection.prepareStatement(q);
 
             ps.setTimestamp(1, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
@@ -274,6 +275,7 @@ public class QueryAppointments {
             ps.setTimestamp(4, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
             ps.setTimestamp(5,Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
             ps.setInt(6,customer_ID);
+
             ps.executeQuery();
             ResultSet r = ps.getResultSet();
             if(r.next()){
@@ -284,4 +286,5 @@ public class QueryAppointments {
         }
         return conflictFlag;
     }
+
 }

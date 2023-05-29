@@ -126,6 +126,8 @@ public class ModifyAppointment_Controller {
         Timestamp createDateValue = Timestamp.valueOf(LocalDateTime.now());
         Timestamp lastUpdateValue = Timestamp.valueOf(LocalDateTime.now());
         int appointmentID = Integer.parseInt(appID.getText());
+        LocalDateTime initialStartDateTimeValue = LocalDateTime.of(appStartD.getValue(), appStartT.getValue());
+        LocalDateTime initialEndDateTimeValue = LocalDateTime.of(appStartD.getValue(), appStartT.getValue());
 
         //convert to start and end time to utc time
         ZonedDateTime headUTC = startDateTimeValue.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC"));
@@ -145,62 +147,64 @@ public class ModifyAppointment_Controller {
         boolean chk5 = false;
         boolean chk6 = false;
         boolean chk7 = false;
+        boolean chk8 = false;
 
         if (!appTitle.getText().isEmpty() || !appDesc.getText().isEmpty() || !appContact.getSelectionModel().isEmpty()
                 || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !headUTC.equals(null)
                 || !endUTC.equals(null) || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
-            if(QueryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
-                    , Integer.parseInt(appCustID.getValue().toString())) == true){
-                chk2 = true;
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
-                insertError.showAndWait();
-            }
-            if(headUTC.isAfter(endUTC)){
-                chk3 = true;
-            insertError.setAlertType(Alert.AlertType.ERROR);
-            insertError.setContentText("Error: Start time is AFTER end time.");
-            insertError.showAndWait();
-            }
-            if (headUTC.equals(endUTC)) {
-                chk4 = true;
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: Start time is the SAME as end time.");
-                insertError.showAndWait();
-            }
-            if (headUTC.isBefore(twelvePM_UTC)) {
-                chk5 = true;
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: Start time is before standard business hours start");
-                insertError.showAndWait();
-            }
-            if (endUTC.isAfter(twoAM_UTC) && endUTC.isBefore(twelvePM_UTC)) {
-                chk6 = true;
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: End time is outside standard business hours start");
-                insertError.showAndWait();
-            }
-            if (dayofWeek.getDayOfWeek() == DayOfWeek.SATURDAY || dayofWeek.getDayOfWeek() == DayOfWeek.SUNDAY){
-                chk7 = true;
-                insertError.setAlertType(Alert.AlertType.ERROR);
-                insertError.setContentText("Error: You have selected a weekend. We are only open from Monday - Friday");
-                insertError.showAndWait();
-            }
-            else if(!chk1 && !chk2 && !chk3 && !chk4 && !chk5 && !chk6){
-                QueryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
-                        ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(), headUTC.toLocalDateTime()
-                        ,endUTC.toLocalDateTime(),appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
+                if(QueryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
+                        , Integer.parseInt(appCustID.getValue().toString())) == true){
+                    chk2 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
+                    insertError.showAndWait();
+                }
+                if(headUTC.isAfter(endUTC)){
+                    chk3 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: Start time is AFTER end time.");
+                    insertError.showAndWait();
+                }
+                if (headUTC.equals(endUTC)) {
+                    chk4 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: Start time is the SAME as end time.");
+                    insertError.showAndWait();
+                }
+                if (headUTC.isBefore(twelvePM_UTC)) {
+                    chk5 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: Start time is before standard business hours start");
+                    insertError.showAndWait();
+                }
+                if (endUTC.isAfter(twoAM_UTC) && endUTC.isBefore(twelvePM_UTC)) {
+                    chk6 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: End time is outside standard business hours start");
+                    insertError.showAndWait();
+                }
+                if (dayofWeek.getDayOfWeek() == DayOfWeek.SATURDAY || dayofWeek.getDayOfWeek() == DayOfWeek.SUNDAY){
+                    chk7 = true;
+                    insertError.setAlertType(Alert.AlertType.ERROR);
+                    insertError.setContentText("Error: You have selected a weekend. We are only open from Monday - Friday");
+                    insertError.showAndWait();
+                }
+                else if(!chk1 && !chk2 && !chk3 && !chk4 && !chk5 && !chk6 && !chk7 && !chk8){
+                    QueryAppointments.updateAppointmentList(appointmentID,appTitle.getText(),appDesc.getText()
+                            ,appContact.getValue().getContact_id(),appType.getText(),appLocation.getText(), headUTC.toLocalDateTime()
+                            ,endUTC.toLocalDateTime(),appCustID.getValue().toString(),appUserID.getValue().toString(),lastUpdateValue);
 
-                Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
-                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                //Create Scene
-                Scene scene = new Scene(fxmlLoader,1100, 700);
-                stage.setTitle("Appointments/Customer Page");
-                stage.setScene(scene);
-                stage.show();
-                QueryAppointments.updateSuccessful.showAndWait();
-            }
+                    Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
+                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    //Create Scene
+                    Scene scene = new Scene(fxmlLoader,1100, 700);
+                    stage.setTitle("Appointments/Customer Page");
+                    stage.setScene(scene);
+                    stage.show();
+                    QueryAppointments.updateSuccessful.showAndWait();
+                }
+          //  }
         }else{
             chk1 = true;
             insertError.setAlertType(Alert.AlertType.ERROR);

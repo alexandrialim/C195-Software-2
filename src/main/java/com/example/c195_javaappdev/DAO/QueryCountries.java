@@ -19,6 +19,7 @@ public class QueryCountries {
      * @return Country List based on country id, or return null if it's an empty list.
      */
     public static Countries getCountryByID(int countryID){
+        //Lambda is used to fill an ObservableList with countries based on the country ID.
         ObservableList<Countries> list = getCountriesList().stream()
                 .filter(c -> c.getCountry_id() == countryID)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));

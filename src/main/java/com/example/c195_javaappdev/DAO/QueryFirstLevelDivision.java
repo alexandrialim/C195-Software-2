@@ -71,7 +71,7 @@ public class QueryFirstLevelDivision {
     public static ObservableList<First_Level_Divisions> getDivisionsByCountryID(int countryID) throws SQLException {
         ObservableList<First_Level_Divisions> flds = FXCollections.observableArrayList();
         try {
-
+            //Lambda is used to fill an Observable array list with first level division data
             flds = QueryFirstLevelDivision.getFirstLevelDivisionList().stream()
                     .filter(fld -> fld.getCountry_id() == countryID)
                     .collect(Collectors.toCollection(FXCollections::observableArrayList));

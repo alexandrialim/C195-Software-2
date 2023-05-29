@@ -111,13 +111,6 @@ public class Appointments_CustomerController {
     private TableView<Appointments> appointmentTable;
 
 
-
-    /*
-     * This method initializes the controller
-     * @param ResourceBundle a customized resource used to translate between english and French depending on the users
-     *                       computer language settings
-     */
-
     /**
      * This method initializes the controller.
      * A ResourceBundle is used to translate between english and French depending on the users computer language settings.
