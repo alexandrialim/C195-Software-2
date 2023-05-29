@@ -1,11 +1,14 @@
 package com.example.c195_javaappdev.MODEL;
 
+/**
+ * This class holds country data.
+ */
 public class Countries {
     public int country_id;
     public String country;
 
     /**
-     *
+     * gets and sets country id and country name
      * @param country_id
      * @param country
      */
@@ -15,7 +18,6 @@ public class Countries {
     }
 
     /**
-     *
      * @return country id number
      */
     public int getCountry_id(){
@@ -29,6 +31,9 @@ public class Countries {
         return country;
     }
 
+    /**
+     * @return country name is readable format
+     */
     @Override
     public String toString() {
         return country;

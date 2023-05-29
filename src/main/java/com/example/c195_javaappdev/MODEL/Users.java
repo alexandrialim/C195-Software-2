@@ -1,10 +1,19 @@
 package com.example.c195_javaappdev.MODEL;
 
+/**
+ * This class gets and sets user data.
+ */
 public class Users {
     private int user_id;
     private String user_name;
     public String pw;
 
+    /**
+     * This gets and sets user id, username, and password info.
+     * @param user_id user id number
+     * @param user_name username
+     * @param pw password
+     */
     public Users(int user_id, String user_name, String pw){
         this.user_id = user_id;
         this.user_name = user_name;
@@ -12,7 +21,6 @@ public class Users {
     }
 
     /**
-     *
      * @return user id
      */
     public int getUser_id() {
@@ -20,7 +28,6 @@ public class Users {
     }
 
     /**
-     *
      * @return username
      */
     public String getUser_name() {
@@ -28,7 +35,6 @@ public class Users {
     }
 
     /**
-     *
      * @return password
      */
     public String getPw() {
