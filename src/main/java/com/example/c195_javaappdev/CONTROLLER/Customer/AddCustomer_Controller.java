@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This class holds methods for adding customer information.
+ */
 public class AddCustomer_Controller {
 
     @FXML
@@ -43,9 +46,18 @@ public class AddCustomer_Controller {
     @FXML
     public ComboBox<Countries> custCountry;
 
+    /**
+     * This method initializes the customer form and loads all countries and associated states to choose from.
+     */
     public void initialize() {
         custCountry.setItems(QueryCountries.getCountriesList());
     }
+
+    /**
+     * This method allows the user to save newly entered customer data.
+     * @param actionEvent When clicked, the new customer data will be loaded into the customer table.
+     * @throws IOException
+     */
     public void clicktoSave(ActionEvent actionEvent) throws IOException{
         ResourceBundle bundle = ResourceBundle.getBundle("language", Locale.getDefault());
         int divisionID = custState.getValue().getDivision_id();
@@ -67,6 +79,11 @@ public class AddCustomer_Controller {
         }
     }
 
+    /**
+     * This method allows the user to go back to the main screen without saving any changes.
+     * @param actionEvent When clicked the user will be routed back to the main screen.
+     * @throws IOException
+     */
     public void exitStage(ActionEvent actionEvent) throws IOException {
         Parent fxmlLoader = FXMLLoader.load(Main.class.getResource("Views/AppointmentForms/Appointments and Customers.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -76,6 +93,12 @@ public class AddCustomer_Controller {
         stage.setScene(scene);
         stage.show();
     }
+
+    /**
+     * This method grabs the select country and associated states/provinces.
+     * @param actionEvent when the drop-down is clicked, the user can see 3 countries to choose from and
+     *                   the associated states/provinces to choose from.
+     */
     @FXML
     public void selectCountry(ActionEvent actionEvent){
         try {
