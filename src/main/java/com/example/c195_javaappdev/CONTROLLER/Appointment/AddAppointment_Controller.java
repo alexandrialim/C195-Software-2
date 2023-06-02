@@ -138,7 +138,7 @@ public class AddAppointment_Controller {
                 || endUTC != null || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
             if(QueryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
-                    , Integer.parseInt(appCustID.getValue().toString())) == true){
+                    , Integer.parseInt(appCustID.getValue().toString()), appContact.getValue().getContact_id()) == true){
                 chk2 = true;
                 insertError.setAlertType(Alert.AlertType.ERROR);
                     insertError.setContentText("Error: The appointment time that you have " +

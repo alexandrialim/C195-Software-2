@@ -249,7 +249,7 @@ public class QueryAppointments {
     }
 
     /**
-     * This method checks if there is an appointment conflict while the user is booking or modifying an appointment.
+     * This method checks if there is an appointment conflict while the user is booking an appointment.
      * @param startDate The Appointment Start Date
      * @param startTime The Appointment Start Time
      * @param endTime The Appointment End Time
@@ -257,7 +257,7 @@ public class QueryAppointments {
      * @return True if the appointment conflicts with an existing appointment, False if there is no conflicting appointments.
      * @throws SQLException
      */
-    public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID) throws SQLException { //ObservableList<Appointments>
+    public static boolean appointmentConflict(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID, int contact_ID) throws SQLException { //ObservableList<Appointments>
             boolean conflictFlag = false;
             int rowsReturned;
         try {
@@ -266,7 +266,7 @@ public class QueryAppointments {
             combinedDT_Start = combinedDT_Start.withZoneSameInstant(ZoneId.of("UTC"));
             combinedDT_End = combinedDT_End.withZoneSameInstant(ZoneId.of("UTC"));
 
-            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ? && Appointment_ID != Appointment_ID";
+            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ? && Contact_ID = ?"; //&& Appointment_ID != ?
             PreparedStatement ps = JDBC.connection.prepareStatement(q);
 
             ps.setTimestamp(1, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
@@ -275,6 +275,8 @@ public class QueryAppointments {
             ps.setTimestamp(4, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
             ps.setTimestamp(5,Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
             ps.setInt(6,customer_ID);
+            //ps.setInt(7,appointment_ID);
+            ps.setInt(7,contact_ID);
 
             ps.executeQuery();
             ResultSet r = ps.getResultSet();
@@ -287,4 +289,44 @@ public class QueryAppointments {
         return conflictFlag;
     }
 
+    /**
+     * This method checks if there is an appointment conflict while the user is booking an appointment.
+     * @param startDate The Appointment Start Date
+     * @param startTime The Appointment Start Time
+     * @param endTime The Appointment End Time
+     * @param customer_ID The Customer ID associated with the Appointment
+     * @return True if the appointment conflicts with an existing appointment, False if there is no conflicting appointments.
+     * @throws SQLException
+     */
+    public static boolean appointmentConflictMod(LocalDate startDate, LocalTime startTime, LocalTime endTime, int customer_ID, int appointment_ID, int contact_ID) throws SQLException { //ObservableList<Appointments>
+        boolean conflictFlag = false;
+        int rowsReturned;
+        try {
+            ZonedDateTime combinedDT_Start = ZonedDateTime.of(startDate,startTime, ZoneId.systemDefault());
+            ZonedDateTime combinedDT_End = ZonedDateTime.of(startDate,endTime, ZoneId.systemDefault());
+            combinedDT_Start = combinedDT_Start.withZoneSameInstant(ZoneId.of("UTC"));
+            combinedDT_End = combinedDT_End.withZoneSameInstant(ZoneId.of("UTC"));
+
+            String q = "SELECT * FROM appointments WHERE (? < Start AND ? > Start) OR (? > Start AND ? < END) OR (? = Start) AND Customer_ID = ? && Appointment_ID != Appointment_ID && Contact_ID = ?";
+            PreparedStatement ps = JDBC.connection.prepareStatement(q);
+
+            ps.setTimestamp(1, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setTimestamp(2, Timestamp.valueOf(combinedDT_End.toLocalDateTime()));
+            ps.setTimestamp(3, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setTimestamp(4, Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setTimestamp(5,Timestamp.valueOf(combinedDT_Start.toLocalDateTime()));
+            ps.setInt(6,customer_ID);
+            //ps.setInt(7,appointment_ID);
+            ps.setInt(7,contact_ID);
+
+            ps.executeQuery();
+            ResultSet r = ps.getResultSet();
+            if(r.next()){
+                conflictFlag = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return conflictFlag;
+    }
 }

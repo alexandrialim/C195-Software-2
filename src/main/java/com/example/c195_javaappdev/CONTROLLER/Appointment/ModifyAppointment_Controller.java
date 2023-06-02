@@ -153,8 +153,8 @@ public class ModifyAppointment_Controller {
                 || !appType.getText().isEmpty() || !appLocation.getText().isEmpty() || !headUTC.equals(null)
                 || !endUTC.equals(null) || !appCustID.getSelectionModel().isEmpty()
                 || !appUserID.getSelectionModel().isEmpty()){
-                if(QueryAppointments.appointmentConflict(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
-                        , Integer.parseInt(appCustID.getValue().toString())) == true){
+                if(QueryAppointments.appointmentConflictMod(appStartD.getValue(), appStartT.getValue(), appEndT.getValue()
+                        , Integer.parseInt(appCustID.getValue().toString()), Integer.parseInt(appID.getText().toString()), appContact.getValue().getContact_id()) == true){
                     chk2 = true;
                     insertError.setAlertType(Alert.AlertType.ERROR);
                     insertError.setContentText("Error: The appointment time that you have selected overlaps with another appointment.");
