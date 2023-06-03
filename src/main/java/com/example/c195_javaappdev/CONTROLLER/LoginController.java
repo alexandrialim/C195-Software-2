@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -115,21 +116,25 @@ public class LoginController {
         boolean in15MinFlag = false;
         LocalDateTime currentTime = LocalDateTime.now();
         LocalDateTime in15Mins = currentTime.plusMinutes(15);
-        LocalDateTime time1;
+        LocalDateTime previous1Min = currentTime.plusMinutes(1);
+        ZonedDateTime time1;
+        Appointments b = null;
 
-        ObservableList<Appointments> tempArray = FXCollections.observableArrayList();
-
-        for (Appointments a: QueryAppointments.getAppointmentList()) {
-            time1 = a.getStartTime();
-            if(time1.equals(in15Mins) || (time1.toLocalDate().equals(in15Mins.toLocalDate())
-                    && time1.toLocalTime().isBefore(in15Mins.toLocalTime()))) {
+        for (Appointments a : QueryAppointments.getAppointmentList()) {
+            time1 = a.getStartTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault())));
+            if((time1.isAfter(previous1Min.atZone(ZoneId.systemDefault())) || time1.isEqual(in15Mins.atZone(ZoneId.systemDefault())))
+                    && (time1.isBefore(in15Mins.atZone(ZoneId.systemDefault()))
+                    || (time1.isEqual(in15Mins.atZone(ZoneId.systemDefault()))))){
                 in15MinFlag = true;
+                b = a;
             }
         }
         if (in15MinFlag == true) {
+            ZonedDateTime localtime = b.getStartTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(String.valueOf(ZoneId.systemDefault())));
             Alert appointmentWarning = new Alert(Alert.AlertType.WARNING);
             appointmentWarning.setAlertType(Alert.AlertType.WARNING);
-            appointmentWarning.setContentText("You have an upcoming appointment that starts within the next 15 minutes!");
+            // appointment ID, date, and time.
+            appointmentWarning.setContentText("You have an upcoming appointment " + b.getAppointment_id() + " that starts within the next 15 minutes at " + localtime);
             appointmentWarning.showAndWait();
         } else{
             Alert noAppointmentSoon = new Alert(Alert.AlertType.CONFIRMATION);

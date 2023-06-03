@@ -290,7 +290,7 @@ public class QueryAppointments {
     }
 
     /**
-     * This method checks if there is an appointment conflict while the user is booking an appointment.
+     * This method checks if there is an appointment conflict while the user is modifying an appointment.
      * @param startDate The Appointment Start Date
      * @param startTime The Appointment Start Time
      * @param endTime The Appointment End Time
